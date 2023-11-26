@@ -1,8 +1,8 @@
-/* import { Router } from "express";
-import { register, getAllUsuarios, login } from "../controllers/auth.controller.js";
+import { Router } from "express";
+import { register, getAllUsuarios} from "../controllers/auth.controller.js";
 
 
-export const authRouter = Router();
+const authRouter = Router();
 
 //REGISTRARCE
 authRouter.post("/register", register);
@@ -11,5 +11,7 @@ authRouter.post("/register", register);
 authRouter.get("/usuarios", getAllUsuarios);
 
 
-//INICIAR SECION
+/* //INICIAR SECION
 authRouter.post("/login", login); */
+
+export default authRouter
