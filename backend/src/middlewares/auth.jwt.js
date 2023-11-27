@@ -1,29 +1,25 @@
 import jwt from "jsonwebtoken";
-import { settingSecretToken } from "../config.js";
-import User from "../models/user.model.js";
 
+import { settingSecretToken } from "../config/config.js";
 
-//Funcion token
-export const verifyToken = async (req, res, next) => {
+const { secret } = settingSecretToken();
 
-    const token = req.headers["x-access-token"];
-    try {
-        if (!token) {
-            return res.status(403).json({ message: "Autorización denegada No se envió el token" });
+export const authRequired = (req, res, next) => {
+  //   console.log(req.headers.cookie);
 
-        } else {
-            //si el token es válido devuelve un usuario
-            const decoded = jwt.verify(token, settingSecretToken().secret);
-            //console.log(decoded);
-            req.userId = decoded.id;
-            const user = await User.findById(req.userId); 
-            if (!user)
-                return res.status(404).json({ message: "No se encontró el Usuario" });
-        }
+  const { token } = req.cookies;
+  //   console.log(token);
+  if (!token)
+    return res
+      .status(401)
+      .json({ message: "Autorización denegada, no hay token" });
 
-        next();
-    } catch (error) {
-        return res.status(404).json({ message: "Error general en el TOKEN" });
-    }
+  jwt.verify(token, secret, (err, user) => {
+    if (err) return res.status(403).json({ message: "Token inválido" });
+    // console.log(user);
+    req.user = user;
+  });
+
+  next();
 };
 

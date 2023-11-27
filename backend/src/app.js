@@ -13,7 +13,8 @@ connectMongo();
 app.use(helmet());
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cookieParser());
 app.use("/", indexRoutes);
 app.use("/api/", authRouter);
-app.use(cookieParser());
+
 app.use(cors());

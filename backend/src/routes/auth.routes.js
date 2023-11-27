@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { register, getAllUsuarios, login, logout} from "../controllers/auth.controller.js";
+import { register, getAllUsuarios, login, logout, profile} from "../controllers/auth.controller.js";
+import { authRequired} from "../middlewares/auth.jwt.js";
 
 
 const authRouter = Router();
@@ -16,5 +17,8 @@ authRouter.post("/login", login);
 //Ruta para el Logout
 authRouter.post("/logout", logout);
 
+//Rutas para el Perfil
+
+authRouter.get("/profile",authRequired, profile);
 
 export default authRouter
