@@ -11,7 +11,7 @@ const postSchema = new Schema(
     description: {
       type: String,
       trim: true,
-      unique: true,
+      unique: false,
       required: true,
     },
     autor: {
