@@ -25,19 +25,18 @@ export const register = async (req, res) => {
         //Generamos el Token
 
         //TOKEN: forma 1:
-        // jwt.sign(
-        //   { id: userSaved._id },
-        //   "proyectoBd",
-        //   { expiresIn: "1h" },
-        //   (err, token) => {
-        //     if (err) console.log(err);
-        //     res.cookie("token", token);
-        //     console.log(token);
-        //     res.json(userSaved);
-        //   }
-        // );
+        /*     jwt.sign(
+              { id: userSaved._id },
+              "proyectoBd",
+              { expiresIn: "1h" },
+              (err, token) => {
+                if (err) console.log(err);
+                res.cookie("token", token);
+                console.log(token);
+                res.json(userSaved);
+              }
+            ); */
         //TOKEN: forma 2:
-
         const token = await createAccessToken({ id: userSaved._id });
         res.cookie("token", token);
         res.json({
@@ -54,36 +53,42 @@ export const register = async (req, res) => {
     }
 };
 
-/* //LOGIN  
+//LOGIN  
 export const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user = await User.findOne({ email });
+        //buscamos el usuario en la base de datos en base al emali ingresado por el usuario
+        const userFound = await User.findOne({ email });
 
         //VERIFICAMOS EL EMAIL
-        if (!user)
+        if (!userFound)
             return res.status(400).json({ message: "El usuario no esta registrado" });
-
-        const verifiedPassword = await User.comparePassword(password, user.password);
+        const matchPassword = await bcrypt.compare(password, userFound.password);
 
         //VERIFICAMOS EL PASSWORD
-        if (!verifiedPassword) {
-            return res
-                .status(400)
-                .json({ message: "Password incorrecto", token: null });
+        if (!matchPassword) {
+            return res.status(400).json({ message: "Password incorrecto", token: null });
         } else {
 
-            //generamos el token
-            const token = jwt.sign({ id: user._id }, settingSecretToken().secret, {
-                expiresIn: "1h",
+            //generamos el token nuevamento por si expiró
+            const token = await createAccessToken({ id: userFound._id });
+            res.cookie("token", token);
+            res.json({
+                message: "Bienvenido!",
+                id: userFound.id,
+                username: userFound.username,
+                email: userFound.email,
+                avatarURL: userFound.avatarURL,
             });
-            return res
-                .status(200)
-                .json({ message: "El Usuario ingreso con exito", token });
         }
     } catch (error) {
-        return res.status(400).json({ message: "Error en el inicio de sesión" });
-    } 
+        return res.status(500).json({ message: "Error en el inicio de sesión", error });
+    }
 };
-*/
+
+//Logout de usuario
+export const logout = async (req, res) => {
+    res.cookie("token", "", { expires: new Date(0) });
+    return res.status(200).json({ message: "Hasta Pronto!" });
+};

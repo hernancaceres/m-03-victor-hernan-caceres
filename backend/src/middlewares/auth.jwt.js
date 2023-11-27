@@ -9,15 +9,16 @@ export const verifyToken = async (req, res, next) => {
     const token = req.headers["x-access-token"];
     try {
         if (!token) {
-            return res.status(403).json({ message: "No se envió el token" });
+            return res.status(403).json({ message: "Autorización denegada No se envió el token" });
 
         } else {
+            //si el token es válido devuelve un usuario
             const decoded = jwt.verify(token, settingSecretToken().secret);
-            console.log(decoded);
+            //console.log(decoded);
             req.userId = decoded.id;
-            const user = await User.findById(req.userId);
+            const user = await User.findById(req.userId); 
             if (!user)
-                return res.status(404).json({ message: "No se encontra el Usuario" });
+                return res.status(404).json({ message: "No se encontró el Usuario" });
         }
 
         next();
