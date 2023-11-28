@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { createAccessToken } from "../middlewares/jwt.validator.js";
+import Role from "../models/Role.js";
 //BUSCAR TODOS LOS USUARIOS
 
 export const getAllUsuarios = async (req, res) => {
@@ -12,12 +13,23 @@ export const getAllUsuarios = async (req, res) => {
 //metodos de singup (para registrar un usuario) 
 
 export const register = async (req, res) => {
-    const { username, email, password, avatarURL } = req.body;
+    const { username, email, password, roles } = req.body;
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10); //encriptamos la contraseña
 
-        const newUser = new User({ username, email, password: hashedPassword});
+        const newUser = new User({ username, email, password: hashedPassword });
+
+        //logica para los roles
+        if (roles) {
+            const foundRoles = await Role.find({ name: { $in: roles } });
+            newUser.roles = foundRoles.map((rol) => rol._id);
+        } else {
+            const role = await Role.findOne({
+                name: "user",
+            });
+            newUser.roles = [role._id];
+        }
 
         //Guardamos al registro de user
         const userSaved = await newUser.save();
@@ -44,7 +56,7 @@ export const register = async (req, res) => {
             id: userSaved.id,
             username: userSaved.username,
             email: userSaved.email,
-            
+
         });
 
         // res.status(200).json(userSaved);
@@ -79,7 +91,7 @@ export const login = async (req, res) => {
                 id: userFound.id,
                 username: userFound.username,
                 email: userFound.email,
-                
+
             });
         }
     } catch (error) {
@@ -96,17 +108,17 @@ export const logout = async (req, res) => {
 //perfil de usuario
 export const profile = async (req, res) => {
     try {
-      const userFound = await User.findById(req.user.id);
-      if (!userFound)
-        return res.status(400).json({ message: "Usuario no encontrado" });
-  
-      res.json({
-        message: "Perfil",
-        id: userFound.id,
-        username: userFound.username,
-        email: userFound.email,
-      });
+        const userFound = await User.findById(req.user.id);
+        if (!userFound)
+            return res.status(400).json({ message: "Usuario no encontrado" });
+
+        res.json({
+            message: "Perfil",
+            id: userFound.id,
+            username: userFound.username,
+            email: userFound.email,
+        });
     } catch (error) {
-      res.status(500).json({ message: "Error en el perfil", error });
+        res.status(500).json({ message: "Error en el perfil", error });
     }
-  };
+};

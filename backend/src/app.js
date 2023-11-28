@@ -8,8 +8,10 @@ import { indexRoutes } from "./routes/index.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import postRouter from "./routes/post.routes.js";
 import commentRouter from "./routes/comment.routes.js";  // Nombre del archivo de rutas de comentarios
+import { createRoles } from "./initial.setup.js";
 export const app = express();
 connectMongo();
+createRoles();
 
 app.use(helmet());
 app.use(express.json());
