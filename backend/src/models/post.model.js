@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-//import mongoose from "mongoose"
 
 const postSchema = new Schema(
   {
@@ -15,14 +14,16 @@ const postSchema = new Schema(
       required: true,
     },
     autor: {
-      type: String,
-      trim: true,
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
-    comments: {
-      type: String,
-      required: false,
-    },
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
     imageURL: {
       type: String,
       required: false,

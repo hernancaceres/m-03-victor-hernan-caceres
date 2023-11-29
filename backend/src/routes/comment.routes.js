@@ -1,12 +1,25 @@
 import express from "express";
 import { authRequired } from "../middlewares/auth.jwt.js";
-import { createComment } from "../controllers/comment.controller.js";
+import {
+  createComment,
+  getAllComments,
+  updateComment,
+  deleteComment,
+} from "../controllers/comment.controller.js";
 
 const commentRouter = express.Router();
 
 // Ruta para crear un nuevo comentario
-commentRouter.post("/comment", authRequired, createComment);
+commentRouter.post("/comment/:postId", authRequired, createComment);
 
-// Puedes agregar más rutas según tus necesidades, como obtener todos los comentarios, actualizar comentarios, eliminar comentarios, etc.
+// Ruta para obtener todos los comentarios
+commentRouter.get("/comments", authRequired, getAllComments);
+
+// Ruta para actualizar un comentario
+commentRouter.put("/comment/:commentId", authRequired, updateComment);
+
+// Ruta para eliminar un comentario
+commentRouter.delete("/comment/:commentId", authRequired, deleteComment);
 
 export default commentRouter;
+

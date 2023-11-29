@@ -13,12 +13,12 @@ export const getAllUsuarios = async (req, res) => {
 //metodos de singup (para registrar un usuario) 
 
 export const register = async (req, res) => {
-    const { username, email, password, roles } = req.body;
+    const { username, email, password,avatarURL, roles } = req.body;
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10); //encriptamos la contraseña
 
-        const newUser = new User({ username, email, password: hashedPassword });
+        const newUser = new User({ username, email,avatarURL, password: hashedPassword });
 
         //logica para los roles
         if (roles) {
@@ -56,6 +56,7 @@ export const register = async (req, res) => {
             id: userSaved.id,
             username: userSaved.username,
             email: userSaved.email,
+            avatarURL:userSaved.avatarURL
 
         });
 
