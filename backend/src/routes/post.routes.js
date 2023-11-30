@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost, getAllPosts } from "../controllers/post.controller.js";
+import { createPost, deletePostById, getAllPosts, getPostById } from "../controllers/post.controller.js";
 import {
   createComment,
   getAllComments,
@@ -13,8 +13,15 @@ export const postRoutes = Router();
 // RUTA PARA BUSCAR TODOS LOS POSTS
 postRoutes.get("/post", getAllPosts);
 
+// Ruta para obtener un post por ID
+postRoutes.get('/post/:postId', getPostById);
+
 // RUTA PARA CREAR UN NUEVO POST
 postRoutes.post("/post", authRequired, createPost);
+
+// Ruta para eliminar un post por ID
+postRoutes.delete('/post/:postId', deletePostById);
+
 
 // RUTA PARA OBTENER TODOS LOS COMENTARIOS DE UN POST
 postRoutes.get("/post/:postId/comments", authRequired, getAllComments);

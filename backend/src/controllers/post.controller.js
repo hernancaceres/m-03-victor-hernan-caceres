@@ -6,6 +6,24 @@ export const getAllPosts = async (req, res) => {
   res.json(posts);
 };
 
+// Obtener un post por ID
+export const getPostById = async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.status(200).json(post);
+  } catch (error) {
+    console.error('Error fetching post by ID:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 //CREAR UN POST
 export const createPost = async (req, res) => {
     try {
@@ -34,6 +52,24 @@ export const updatePost = async (req, res) => {
   }
   catch (error) {
     return res.status(404).json({ message: "No se pudo actualizar el post" });
+  }
+};
+
+// Eliminar un post por ID
+export const deletePostById = async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const deletedPost = await Post.findByIdAndDelete(postId);
+
+    if (!deletedPost) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.status(200).json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting post by ID:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
