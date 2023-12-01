@@ -42,15 +42,15 @@ export const createPost = async (req, res) => {
     
   };
 
-//ACTUALIZAR UN POST
+// ACTUALIZAR UN POST
 export const updatePost = async (req, res) => {
-  const { posttId } = req.params;
+  const { postId } = req.params; // Corregir aquí
   const post = req.body;
+
   try {
-    const updatedPost = await Post.findByIdAndUpdate(posttId, post, { new: true, });
+    const updatedPost = await Post.findByIdAndUpdate(postId, post, { new: true });
     res.status(200).json(updatedPost);
-  }
-  catch (error) {
+  } catch (error) {
     return res.status(404).json({ message: "No se pudo actualizar el post" });
   }
 };
