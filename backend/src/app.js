@@ -13,12 +13,19 @@ export const app = express();
 connectMongo();
 createRoles();
 
+app.use(cookieParser());
 app.use(helmet());
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(cookieParser());
+
+app.use(cors({
+    origin: 'http://localhost:5173',  // Reemplaza con la URL de tu aplicación de React
+    credentials: true,
+}));
+
+
 app.use("/", indexRoutes);
 app.use("/api/", authRouter);
 app.use("/api/", postRouter);
 app.use("/api/", commentRouter);  // Rutas de comentarios
-app.use(cors());
+
