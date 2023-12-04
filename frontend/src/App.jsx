@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import CompCreateUsuario from "./pages/CompCreateUsuario"
+import Home from "./pages/Home"
+import LoginForm from "./pages/LoginForm"
 
 
 function App() {
@@ -7,9 +9,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-      <Route path='/' element={<h1>Home</h1> } />
+        <Route path='/' element={<LoginForm />} />
+        <Route path='/home' element={Home} />
         <Route path='/register' element={<CompCreateUsuario />} />
-        <Route path='/login' element={<h1>login</h1>} />
+
+        <Route path='/login' element={<LoginForm />} />
       </Routes>
     </BrowserRouter>
   )

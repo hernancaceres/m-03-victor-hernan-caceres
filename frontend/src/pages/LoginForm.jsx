@@ -1,77 +1,76 @@
-// import { useState } from "react";
+import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
-// import { useThemeContext } from "../context/ThemeContext";
-// import axiosInstance from '../components/axios';
-// import Cookies from "js-cookie";
-// import { useUser } from "../context/UserContext";
 
-// function LoginForm() {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const navigate = useNavigate();
-//   const { contextTheme } = useThemeContext();
-//   const { dispatch } = useUser(); // Obtén la función `dispatch` del contexto
+import axiosInstance from '../components/axios';
+import Cookies from "js-cookie";
+import { useUser } from "../context/UserContext";
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
+function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // const navigate = useNavigate();
 
-//     try {
-//       const response = await axiosInstance.post("http://localhost:4000/api/login", {
-//         email,
-//         password,
-//       });
+  const { dispatch } = useUser(); // Obtén la función `dispatch` del contexto
 
-//       console.log("Respuesta del servidor:", response);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-//       // Agrega este console.log para imprimir el token antes de intentar obtenerlo
-//       console.log("Token antes de obtenerlo:", response.data && response.data.token);
+    try {
+      const response = await axiosInstance.post("http://localhost:4000/api/login", {
+        email,
+        password,
+      });
 
-//       // Verifica si la respuesta contiene un campo 'data' y dentro un campo 'token' para obtener el token
-//       const token = response.data && response.data.token;
+      console.log("Respuesta del servidor:", response);
 
-//       console.log("Token obtenido:", token);
+      // Agrega este console.log para imprimir el token antes de intentar obtenerlo
+      console.log("Token antes de obtenerlo:", response.data && response.data.token);
 
-//       if (token) {
-//         // Utiliza js-cookie para manejar la cookie
-//         Cookies.set('token', token);
+      // Verifica si la respuesta contiene un campo 'data' y dentro un campo 'token' para obtener el token
+      const token = response.data && response.data.token;
 
-//         console.log('Token almacenado en cookies:', token);
+      console.log("Token obtenido:", token);
 
-//         // Guarda el token en el almacenamiento local
-//         localStorage.setItem("token", token);
+      if (token) {
+        // Utiliza js-cookie para manejar la cookie
+        Cookies.set('token', token);
 
-//         // Despacha la acción para establecer el usuario después del inicio de sesión
-//         dispatch({ type: 'LOGIN_SUCCESS', payload: { userId: response.data.id } });
+        console.log('Token almacenado en cookies:', token);
 
-//         // Redirige a la página de crear post
-//         navigate('/create-post');
-        
-//       } else {
-//         console.error("Token de acceso no válido:", token);
-//       }
+        // Guarda el token en el almacenamiento local
+        localStorage.setItem("token", token);
 
-//     } catch (error) {
-//       console.error("Error de inicio de sesión:", error);
-//     }
-//   };
+        // Despacha la acción para establecer el usuario después del inicio de sesión
+        dispatch({ type: 'LOGIN_SUCCESS', payload: { userId: response.data.id } });
 
-//   return (
-//     <div className={`container d-flex justify-content-center align-items-center h-100 ${contextTheme}`}>
-//       <div className="row">
-//         <form onSubmit={handleSubmit}>
-//           <div className='mb-3'>
-//             <label className='form-label'>Email</label>
-//             <input type="email" className='form-control' placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-//           </div>
-//           <div className='mb-3'>
-//             <label className='form-label'>Password</label>
-//             <input type="password" className='form-control' placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-//           </div>
-//           <button type="submit" className='btn btn-outline-secondary' id={contextTheme}>Iniciar sesión</button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// }
+        // // Redirige a la página de crear post
+        // navigate('/');
 
-// export default LoginForm;
+      } else {
+        console.error("Token de acceso no válido:", token);
+      }
+
+    } catch (error) {
+      console.error("Error de inicio de sesión:", error);
+    }
+  };
+
+  return (
+
+    <div className='className=" bg-zinc-800 max-w-md px-10 rounded-md"'>
+      <form onSubmit={handleSubmit}>
+
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}
+         className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"/>
+
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} 
+        className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"/>
+
+        <button type="submit"  >Iniciar sesión</button>
+      </form>
+
+    </div>
+  );
+}
+
+export default LoginForm;

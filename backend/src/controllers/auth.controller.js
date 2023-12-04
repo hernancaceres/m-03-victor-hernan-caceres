@@ -86,9 +86,10 @@ export const login = async (req, res) => {
 
             //generamos el token nuevamento por si expiró
             const token = await createAccessToken({ id: userFound._id });
+
             res.cookie("token", token);
             res.json({
-                message: "Bienvenido!",
+                token,
                 id: userFound.id,
                 username: userFound.username,
                 email: userFound.email,
