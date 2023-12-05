@@ -15,6 +15,7 @@ const userReducer = (state, action) => {
     case 'REGISTER_SUCCESS':
       console.log('Reducer: Registration success:', action.payload);
       // Actualiza el estado con el ID del usuario después del registro
+    
       return {
         ...state,
         user: {
@@ -25,6 +26,8 @@ const userReducer = (state, action) => {
 
       case 'LOGIN_SUCCESS':
       console.log('Reducer: Login success:', action.payload);
+      // Actualiza el estado con el ID del usuario después del inicio de sesión
+      const userId = action.payload.userId;
       // Actualiza el estado con el ID del usuario después del inicio de sesión
       return {
         ...state,
@@ -42,7 +45,9 @@ const userReducer = (state, action) => {
 
 
 export const UserProvider = ({ children }) => {
+  
   const [state, dispatch] = useReducer(userReducer, { user: null });
+
 
   console.log('User context state:', state);
 

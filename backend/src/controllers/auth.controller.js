@@ -10,7 +10,7 @@ export const getAllUsuarios = async (req, res) => {
     res.json(usuarios);
 };
 
-//metodos de singup (para registrar un usuario) 
+//REGISTRO 
 
 export const register = async (req, res) => {
     const { username, email, password,avatarURL, roles } = req.body;
@@ -66,6 +66,44 @@ export const register = async (req, res) => {
     }
 };
 
+
+
+
+// //LOGIN  
+// export const login = async (req, res) => {
+//     const { email, password } = req.body;
+
+//     try {
+//         //buscamos el usuario en la base de datos en base al emali ingresado por el usuario
+//         const userFound = await User.findOne({ email });
+
+//         //VERIFICAMOS EL EMAIL
+//         if (!userFound)
+//             return res.status(400).json({ message: "El usuario no esta registrado" });
+//         const matchPassword = await bcrypt.compare(password, userFound.password);
+
+//         //VERIFICAMOS EL PASSWORD
+//         if (!matchPassword) {
+//             return res.status(400).json({ message: "Password incorrecto", token: null });
+//         } else {
+
+//             //generamos el token nuevamento por si expiró
+//             const token = await createAccessToken({ id: userFound._id });
+
+//             res.cookie("token", token);
+//             res.json({
+//                 token,
+//                 id: userFound.id,
+//                 username: userFound.username,
+//                 email: userFound.email,
+
+//             });
+//         }
+//     } catch (error) {
+//         return res.status(500).json({ message: "Error en el inicio de sesión", error });
+//     }
+// };
+
 //LOGIN  
 export const login = async (req, res) => {
     const { email, password } = req.body;
@@ -87,7 +125,7 @@ export const login = async (req, res) => {
             //generamos el token nuevamento por si expiró
             const token = await createAccessToken({ id: userFound._id });
 
-            res.cookie("token", token);
+            res.cookie("token", token, { sameSite: 'None', secure: true, httpOnly: true });
             res.json({
                 token,
                 id: userFound.id,

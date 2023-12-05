@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { register, getAllUsuarios, login, logout, profile} from "../controllers/auth.controller.js";
 import { authRequired} from "../middlewares/auth.jwt.js";
-
+import  { validarUsuario, manejarErroresValidacion } from "../middlewares/user.validations.js";
 
 const authRouter = Router();
 
 //REGISTRARCE
-authRouter.post("/register", register);
+authRouter.post("/register",validarUsuario,manejarErroresValidacion, register);
 
 //RUTA PARA BUSCAR TODOS LOS USUARIOS
 authRouter.get("/usuarios", getAllUsuarios);

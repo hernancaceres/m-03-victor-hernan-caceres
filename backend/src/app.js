@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import helmet from "helmet";
+import jwt from 'jsonwebtoken';
 import cookieParser from "cookie-parser";
 import { connectMongo } from "./database/db.js";
 import { indexRoutes } from "./routes/index.routes.js";
@@ -22,6 +23,27 @@ app.use(cors({
     origin: 'http://localhost:5173',  // Reemplaza con la URL de tu aplicación de React
     credentials: true,
 }));
+
+
+
+// Endpoint para verificar el token
+app.get('/api/verifyToken', (req, res) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+  
+    if (!token) {
+      return res.status(401).json({ message: 'Token no proporcionado' });
+    }
+  
+    // Verificar el token
+    jwt.verify(token, "argentinaprograma4.0", (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: 'Token inválido' });
+      }
+  
+      // Enviar información del usuario
+      res.json({ id: decoded.id, username: decoded.username }); // Ajusta según tu modelo de usuario
+    });
+  });
 
 
 app.use("/", indexRoutes);

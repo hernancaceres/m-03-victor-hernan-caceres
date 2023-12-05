@@ -52,22 +52,28 @@ function LoginForm() {
 
     } catch (error) {
       console.error("Error de inicio de sesión:", error);
+      console.log(error.response)
     }
   };
 
   return (
 
-    <div className='className=" bg-zinc-800 max-w-md px-10 rounded-md"'>
-      <form onSubmit={handleSubmit}>
+    <div className="flex h-[calc(100vh-100px)] items-center justify-center">
+      <div className="bg-zinc-800 max-w-md w-full p-10 rounded-md">
 
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}
-         className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"/>
+<h1 className="text-2xl font-bold"> Login</h1>
 
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} 
-        className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"/>
+        <form onSubmit={handleSubmit}>
 
-        <button type="submit"  >Iniciar sesión</button>
-      </form>
+          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}
+            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2" />
+
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}
+            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2" />
+
+          <button type="submit"  >Iniciar sesión</button>
+        </form>
+      </div>
 
     </div>
   );
