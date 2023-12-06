@@ -62,8 +62,14 @@ export const register = async (req, res) => {
 
         // res.status(200).json(userSaved);
     } catch (error) {
+        if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
+          // Si el error es de correo electrónico duplicado, envía un código de estado personalizado
+          return res.status(409).json({ message: "El correo electrónico ya está registrado." });
+        }
+    
         res.status(500).json({ message: "Error al registrar al Usuario", error });
-    }
+        console.log(error);
+      }
 };
 
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import axiosInstance from '../components/axios';
 import Cookies from "js-cookie";
 import { useUser } from "../context/UserContext";
+import { Link } from "react-router-dom";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -61,7 +62,7 @@ function LoginForm() {
     <div className="flex h-[calc(100vh-100px)] items-center justify-center">
       <div className="bg-zinc-800 max-w-md w-full p-10 rounded-md">
 
-<h1 className="text-2xl font-bold"> Login</h1>
+        <h1 className="text-2xl font-bold"> Login</h1>
 
         <form onSubmit={handleSubmit}>
 
@@ -73,6 +74,12 @@ function LoginForm() {
 
           <button type="submit"  >Iniciar sesión</button>
         </form>
+
+        <p className="flex gap-x-2 justify-between">
+          ¿No tienes una cuenta? <Link to="/register"
+          className="text-withe-500">registrarse</Link>
+        </p>
+
       </div>
 
     </div>
