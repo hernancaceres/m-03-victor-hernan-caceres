@@ -7,6 +7,8 @@ import LoginForm from './pages/LoginForm';
 import { useUser } from './context/UserContext';
 import axiosInstance from './components/axios';
 import Cookies from 'js-cookie';
+import CreatePostForm from './pages/CreatePostForm';
+import { Suspense } from 'react';
 
 function App() {
   const { dispatch } = useUser();
@@ -40,12 +42,16 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LoginForm />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/register" element={<CompCreateUsuario />} />
-        <Route path="/login" element={<LoginForm />} />
-      </Routes>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<LoginForm />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/register" element={<CompCreateUsuario />} />
+          <Route path="/login" element={<LoginForm />} />
+          {/* rutas para crear post y comentario */}
+          <Route path="/create-post" element={<CreatePostForm />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

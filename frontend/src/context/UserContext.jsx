@@ -49,7 +49,7 @@ export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, { user: null });
 
 
-  console.log('User context state:', state);
+  console.log('UserProvider: User context state:', state);
 
   return (
     <UserContext.Provider value={{ ...state, dispatch }}>
@@ -64,6 +64,9 @@ UserProvider.propTypes = {
 
 export const useUser = () => {
   const context = useContext(UserContext);
+
+  console.log('useUser: User context:', context);
+
   if (!context) {
     throw new Error('useUser debe usarse dentro de un UserProvider');
   }

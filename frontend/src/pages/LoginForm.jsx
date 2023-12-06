@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import axiosInstance from '../components/axios';
 import Cookies from "js-cookie";
@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const navigate = useNavigate();
+const navigate = useNavigate();
 
   const { dispatch } = useUser(); // Obtén la función `dispatch` del contexto
 
@@ -44,8 +44,11 @@ function LoginForm() {
         // Despacha la acción para establecer el usuario después del inicio de sesión
         dispatch({ type: 'LOGIN_SUCCESS', payload: { userId: response.data.id } });
 
+        console.log('Despacho de acción LOGIN_SUCCESS');
+
+
         // // Redirige a la página de crear post
-        // navigate('/');
+         navigate('/create-post');
 
       } else {
         console.error("Token de acceso no válido:", token);
