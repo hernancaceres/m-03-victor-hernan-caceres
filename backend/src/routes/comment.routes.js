@@ -5,6 +5,7 @@ import {
   getAllComments,
   updateComment,
   deleteComment,
+  getCommentsByPostId,
 } from "../controllers/comment.controller.js";
 
 const commentRouter = express.Router();
@@ -14,6 +15,9 @@ commentRouter.post("/comment/:postId", authRequired, createComment);
 
 // Ruta para obtener todos los comentarios
 commentRouter.get("/comments", authRequired, getAllComments);
+
+// Ruta para obtener comentarios por ID de post
+commentRouter.get('/comment/:postId', getCommentsByPostId);
 
 // Ruta para actualizar un comentario
 commentRouter.put("/comment/:commentId", authRequired, updateComment);

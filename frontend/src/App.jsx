@@ -9,6 +9,11 @@ import axiosInstance from './components/axios';
 import Cookies from 'js-cookie';
 import CreatePostForm from './pages/CreatePostForm';
 import { Suspense } from 'react';
+import Navbar from './components/navbar';
+import PostDetailPage from './pages/PostDetailPage';
+import PostList from './pages/PostList';
+import UpdatePostPage from './pages/UpdatePostPage';
+import CreateCommentForm from './pages/CreateCommentForm';
 
 function App() {
   const { dispatch } = useUser();
@@ -42,16 +47,25 @@ function App() {
 
   return (
     <BrowserRouter>
+
       <Suspense fallback={<div>Loading...</div>}>
+        <Navbar />
         <Routes>
-          <Route path="/" element={<LoginForm />} />
-          <Route path="/home" element={<Home />} />
+
+          <Route path="/" element={<Home />} />
           <Route path="/register" element={<CompCreateUsuario />} />
           <Route path="/login" element={<LoginForm />} />
-          {/* rutas para crear post y comentario */}
+          {/* rutas para crear posts */}
+          <Route path="/posts" element={<PostList />} />
+          <Route path="/post/:postId" element={<PostDetailPage />} />
+          <Route path="/update-post/:postId" element={<UpdatePostPage />} />
           <Route path="/create-post" element={<CreatePostForm />} />
+          {/* rutas para comentarios */}
+          <Route path="/create-comment/:postId" element={<CreateCommentForm />} />
         </Routes>
+
       </Suspense>
+
     </BrowserRouter>
   );
 }

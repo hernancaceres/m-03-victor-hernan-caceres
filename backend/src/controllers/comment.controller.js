@@ -41,6 +41,30 @@ export const getAllComments = async (req, res) => {
   }
 };
 
+// Obtener comentarios por ID de post
+export const getCommentsByPostId = async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const post = await Post.findById(postId).populate('comments');
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const comments = post.comments;
+
+    if (comments.length === 0) {
+      return res.status(404).json({ message: 'No comments found for the post' });
+    }
+
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error('Error fetching comments by post ID:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 //Actualizar comentarios:
 export const updateComment = async (req, res) => {
   try {
@@ -83,3 +107,4 @@ export const deleteComment = async (req, res) => {
     res.status(500).json({ message: "Error al eliminar el comentario", error });
   }
 };
+
