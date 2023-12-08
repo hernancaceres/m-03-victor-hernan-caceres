@@ -14,6 +14,7 @@ const PostItem = ({ post, onDelete }) => {
   const handleDeleteClick = () => {
     onDelete(_id);
   };
+  console.log("post aqui",post)
 
   useEffect(() => {
     // Lógica para cargar la lista de comentarios del servidor
@@ -60,9 +61,33 @@ const PostItem = ({ post, onDelete }) => {
 
   return (
     <div className="post-item">
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <p>Autor: {autor}</p>
+
+      <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
+        <h2 className='text-2xl font-bold'>{title}</h2>
+        <p className='text-slate-300'>{description}</p>
+        
+        {/* Muestra la imagen desde la URL */}
+        {imageURL && <img src={imageURL} alt="Post Image" style={{ maxWidth: '100%' }} />}
+        <p className='text-slate-300'>{ new Date(post.updatedAt).toLocaleDateString()}</p>
+
+        {/* Botones de edición y eliminación */}
+        <div>
+          {/* Botón de eliminación */}
+          <button onClick={handleDeleteClick}>Eliminar Post</button>
+
+          {/* Agrega el enlace a la página de actualización del post */}
+          <Link to={`/update-post/${_id}`}>
+            <button>Editar Post</button>
+          </Link>
+        </div>
+
+        {/* Botón para ir a la página de detalles del post */}
+        <Link to={`/post/${_id}`}>
+          <button>Ver Detalles del Post</button>
+        </Link>
+
+      </div>
+
 
       {/* Renderiza la lista de comentarios */}
       <div>
@@ -81,21 +106,7 @@ const PostItem = ({ post, onDelete }) => {
         <button onClick={handleCreateComment}>Crear Comentario</button>
       </div>
 
-      {/* Botones de edición y eliminación */}
-      <div>
-        {/* Botón de eliminación */}
-        <button onClick={handleDeleteClick}>Eliminar Post</button>
 
-        {/* Agrega el enlace a la página de actualización del post */}
-        <Link to={`/update-post/${_id}`}>
-          <button>Editar Post</button>
-        </Link>
-      </div>
-
-      {/* Botón para ir a la página de detalles del post */}
-      <Link to={`/post/${_id}`}>
-        <button>Ver Detalles del Post</button>
-      </Link>
     </div>
   );
 };

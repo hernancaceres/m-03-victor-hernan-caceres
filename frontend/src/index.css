@@ -2,7 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+/* body {
 background: #202020;
 color: azure;
-}
+} */
+
+body {
+    background: #300000;
+    color: azure;
+    }

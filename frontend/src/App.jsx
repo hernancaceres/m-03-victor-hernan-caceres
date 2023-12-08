@@ -49,9 +49,9 @@ function App() {
     <BrowserRouter>
 
       <Suspense fallback={<div>Loading...</div>}>
+        <main className='container mx-auto px-10'>
         <Navbar />
         <Routes>
-
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<CompCreateUsuario />} />
           <Route path="/login" element={<LoginForm />} />
@@ -63,7 +63,7 @@ function App() {
           {/* rutas para comentarios */}
           <Route path="/create-comment/:postId" element={<CreateCommentForm />} />
         </Routes>
-
+        </main>
       </Suspense>
 
     </BrowserRouter>

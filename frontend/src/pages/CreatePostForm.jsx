@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useUser } from '../context/UserContext'; // Asegúrate de que la ruta sea correcta
+import { useNavigate } from "react-router-dom";
 
 const CreatePostForm = () => {
   const { user } = useUser(); // Obtén el usuario del contexto
@@ -9,7 +10,10 @@ const CreatePostForm = () => {
   const [post, setPost] = useState({
     title: '',
     description: '',
+    imageURL: '',
   });
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,6 +36,9 @@ const CreatePostForm = () => {
       );
 
       // Lógica adicional después de crear el post (redirección, actualización, etc.)
+      // // Redirige a la página de posts
+      navigate('/posts');
+
       console.log('Post creado:', response.data);
     } catch (error) {
       console.error('Error al crear el post:', error.response ? error.response.data : error.message);
@@ -42,12 +49,16 @@ const CreatePostForm = () => {
     <div className='bg-zinc-800 max-w-md w-full p-10 rounded-md'>
       <h2>Crear Nuevo Post</h2>
       <form onSubmit={handleCreatePost}>
-        <input type="text" name="title"  placeholder="title" value={post.title} onChange={handleInputChange}
-        className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2' />
+        <input type="text" name="title" placeholder="title" value={post.title} onChange={handleInputChange}
+          className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2' />
         <br />
         <label>Descripción: </label>
-        <textarea name="description" placeholder="description" value={post.description} onChange={handleInputChange} 
-        className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2' />
+        <textarea name="description" placeholder="description" value={post.description} onChange={handleInputChange}
+          className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2' />
+        <br />
+        <label>Imagen: </label>
+        <textarea name="imageURL" placeholder="imageURL" value={post.imageURL} onChange={handleInputChange}
+          className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2' />
         <br />
         <button type="submit">Crear Post</button>
       </form>

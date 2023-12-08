@@ -70,14 +70,14 @@ function LoginForm() {
   return (
 
     <div className="flex h-[calc(100vh-100px)] items-center justify-center">
-      <div className="bg-zinc-800 max-w-md w-full p-10 rounded-md">
+      <div className="bg-violet-900 max-w-md w-full p-10 rounded-md">
 
         <h1 className="text-2xl font-bold"> Login</h1>
 
         <form onSubmit={handleSubmit}>
           <div>
             <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2" />
+              className="w-full bg-violet-700 text-white px-4 py-2 rounded-md my-2" />
             {/* Muestra los errores del campo 'email' */}
             {errors.map((error, index) => (
               error.path === 'email' && (
@@ -89,7 +89,7 @@ function LoginForm() {
           </div>
           <div>
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2" />
+              className="w-full bg-violet-700 text-white px-4 py-2 rounded-md my-2" />
             {/* Muestra los errores del campo 'password' */}
             {errors.map((error, index) => (
               error.path === 'password' && (

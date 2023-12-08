@@ -39,8 +39,7 @@ const PostList = () => {
   };
 
   return (
-    <div className="post-list">
-      <h1>Lista de Posts</h1>
+    <div className="grid grid-cols-3 gap-2 post-list">
       {posts.map((post) => (
         <PostItem key={post._id} post={post} onDelete={handleDelete} />
       ))}

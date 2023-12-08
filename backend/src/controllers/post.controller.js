@@ -27,11 +27,11 @@ export const getPostById = async (req, res) => {
 //CREAR UN POST
 export const createPost = async (req, res) => {
     try {
-      const { title, description, autor } = req.body;
+      const { title, description, autor,imageURL } = req.body;
       if (!title || !description || !autor) {
         return res.status(400).json({ message: "Se requieren todos los campos (title, description, autor)" });
       }
-      const newPost = new Post({ title, description, autor });
+      const newPost = new Post({ title, description, autor,imageURL });
       const postSaved = await newPost.save();
       res.status(201).json(postSaved);
     }
