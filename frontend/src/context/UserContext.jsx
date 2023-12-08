@@ -5,6 +5,7 @@ const UserContext = createContext();
 
 const userReducer = (state, action) => {
   switch (action.type) {
+
     case 'SET_USER':
       console.log('Reducer: Setting user:', action.payload);
       // Lógica para establecer el usuario
@@ -12,10 +13,10 @@ const userReducer = (state, action) => {
         ...state,
         user: action.payload,
       };
+
     case 'REGISTER_SUCCESS':
       console.log('Reducer: Registration success:', action.payload);
       // Actualiza el estado con el ID del usuario después del registro
-    
       return {
         ...state,
         user: {
@@ -24,7 +25,7 @@ const userReducer = (state, action) => {
         },
       };
 
-      case 'LOGIN_SUCCESS':
+    case 'LOGIN_SUCCESS':
       console.log('Reducer: Login success:', action.payload);
       // Actualiza el estado con el ID del usuario después del inicio de sesión
       const userId = action.payload.userId;
@@ -36,8 +37,19 @@ const userReducer = (state, action) => {
           id: action.payload.userId, // Asegúrate de que la respuesta del servidor incluya el ID del usuario
         },
       };
-      
-    // Otros casos para manejar acciones como 'LOGOUT', 'UPDATE_USER', etc.
+
+    case 'LOGOUT':
+      console.log('Reducer: Logout');
+      // Lógica para cerrar sesión (limpiar el estado del usuario, eliminar cookies, etc.)
+      localStorage.removeItem('token'); // Elimina el token del almacenamiento local
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // Elimina la cookie
+      return {
+        ...state,
+        user: null,
+      };
+
+    // Otros casos para manejar acciones como  'UPDATE_USER', etc.
+
     default:
       return state;
   }
@@ -45,7 +57,7 @@ const userReducer = (state, action) => {
 
 
 export const UserProvider = ({ children }) => {
-  
+
   const [state, dispatch] = useReducer(userReducer, { user: null });
 
 

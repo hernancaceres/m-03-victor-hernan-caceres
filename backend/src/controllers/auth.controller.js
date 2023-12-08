@@ -13,12 +13,12 @@ export const getAllUsuarios = async (req, res) => {
 //REGISTRO 
 
 export const register = async (req, res) => {
-    const { username, email, password,avatarURL, roles } = req.body;
+    const { username, email, password, avatarURL, roles } = req.body;
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10); //encriptamos la contraseña
 
-        const newUser = new User({ username, email,avatarURL, password: hashedPassword });
+        const newUser = new User({ username, email, avatarURL, password: hashedPassword });
 
         //logica para los roles
         if (roles) {
@@ -56,20 +56,20 @@ export const register = async (req, res) => {
             id: userSaved.id,
             username: userSaved.username,
             email: userSaved.email,
-            avatarURL:userSaved.avatarURL
+            avatarURL: userSaved.avatarURL
 
         });
 
         // res.status(200).json(userSaved);
     } catch (error) {
         if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
-          // Si el error es de correo electrónico duplicado, envía un código de estado personalizado
-          return res.status(409).json({ message: "El correo electrónico ya está registrado." });
+            // Si el error es de correo electrónico duplicado, envía un código de estado personalizado
+            return res.status(409).json({ message: "El correo electrónico ya está registrado." });
         }
-    
+
         res.status(500).json({ message: "Error al registrar al Usuario", error });
         console.log(error);
-      }
+    }
 };
 
 
@@ -145,11 +145,13 @@ export const login = async (req, res) => {
     }
 };
 
+
 //Logout de usuario
 export const logout = async (req, res) => {
     res.cookie("token", "", { expires: new Date(0) });
     return res.status(200).json({ message: "Hasta Pronto!" });
 };
+
 
 //perfil de usuario
 export const profile = async (req, res) => {
