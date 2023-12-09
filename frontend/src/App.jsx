@@ -68,8 +68,9 @@ function App() {
             <Route path="/register" element={<CompCreateUsuario />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/posts" element={<PostList />} />
+            <Route path="/post/:postId" element={<PostDetailPage />} />
             <Route element={<PrivateRoute />}>
-              <Route path="/post/:postId" element={<PostDetailPage />} />
+              
               <Route path="/update-post/:postId" element={<UpdatePostPage />} />
               <Route path="/create-post" element={<CreatePostForm />} />
               <Route path="/create-comment/:postId" element={<CreateCommentForm />} />

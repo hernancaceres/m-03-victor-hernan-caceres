@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useState } from 'react';
+import { createContext, useContext, useReducer} from 'react';
 import PropTypes from 'prop-types';
 
 const UserContext = createContext();
@@ -46,8 +46,8 @@ const userReducer = (state, action) => {
       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/api/verifyToken;";
 
       return {
-        ...state,
         user: null,
+        isAuthenticated: false, // Establece isAuthenticated en false al cerrar sesión
       };
 
     // Otros casos para manejar acciones como  'UPDATE_USER', etc.
@@ -90,7 +90,13 @@ export const useUser = () => {
 
 
 
-// import { createContext, useContext, useReducer } from 'react';
+
+
+
+
+
+
+// import { createContext, useContext, useReducer} from 'react';
 // import PropTypes from 'prop-types';
 
 // const UserContext = createContext();
@@ -124,6 +130,7 @@ export const useUser = () => {
 //       // Actualiza el estado con el ID del usuario después del inicio de sesión
 //       return {
 //         ...state,
+//         isAuthenticated: true, // Asegúrate de establecer isAuthenticated en true
 //         user: {
 //           ...state.user,
 //           id: action.payload.userId, // Asegúrate de que la respuesta del servidor incluya el ID del usuario
@@ -150,16 +157,18 @@ export const useUser = () => {
 
 // export const UserProvider = ({ children }) => {
 
-//   const [state, dispatch] = useReducer(userReducer, { user: null });
-
+//   const [state, dispatch] = useReducer(userReducer, { user: null, isAuthenticated: false });
 
 //   console.log('UserProvider: User context state:', state);
 
 //   return (
 //     <UserContext.Provider value={{ ...state, dispatch }}>
 //       {children}
+
 //     </UserContext.Provider>
 //   );
+
+
 // };
 
 // UserProvider.propTypes = {
