@@ -16,6 +16,7 @@ import PostList from './pages/PostList';
 import UpdatePostPage from './pages/UpdatePostPage';
 import CreateCommentForm from './pages/CreateCommentForm';
 import PrivateRoute from './pages/PrivateRoute';
+import Profile from './pages/profile';
 
 
 
@@ -74,7 +75,7 @@ if (response.data && response.data.id && response.data.username) {
             <Route path="/posts" element={<PostList />} />
             <Route path="/post/:postId" element={<PostDetailPage />} />
             <Route element={<PrivateRoute />}>
-              
+              <Route path="/profile/:userId" element={<Profile />} />
               <Route path="/update-post/:postId" element={<UpdatePostPage />} />
               <Route path="/create-post" element={<CreatePostForm />} />
               <Route path="/create-comment/:postId" element={<CreateCommentForm />} />

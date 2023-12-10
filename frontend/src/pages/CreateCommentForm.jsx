@@ -43,11 +43,14 @@ const CreateCommentForm = ({ onCommentCreated }) => {  // Agrega onCommentCreate
 
   return (
     <div>
-      <h2>Crear Nuevo Comentario</h2>
-      <label>Comentario: </label>
-      <textarea value={text} onChange={(e) => setText(e.target.value)} />
+      <h2>Crea Un Nuevo Comentario</h2>
+
+      <textarea value={text} onChange={(e) => setText(e.target.value)}
+        className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2' />
       <br />
-      <button onClick={handleCreateComment}>Crear Comentario</button>
+      <button onClick={handleCreateComment} className="bg-violet-900 px-4 py-2 rounded-sm">
+        Crear Comentario
+      </button>
     </div>
   );
 };

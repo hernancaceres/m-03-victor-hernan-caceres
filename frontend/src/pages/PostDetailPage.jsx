@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import CreateCommentForm from './CreateCommentForm';
 import { useUser } from '../context/UserContext'; // Importa useUser desde el contexto de usuario
 
@@ -10,6 +10,7 @@ const PostDetailPage = () => {
   const [comments, setComments] = useState([]);
   const { user } = useUser(); // Utiliza useUser desde el contexto de usuario
   const token = localStorage.getItem('token');
+  
 
   useEffect(() => {
     const fetchPostDetails = async () => {
@@ -41,7 +42,7 @@ const PostDetailPage = () => {
         },
         withCredentials: true,
       });
-      // Redirige a la página principal o cualquier otra página deseada
+      // Redirige a la página de todos los posts
       window.location.href = '/posts';
       // Lógica para redirigir o actualizar la lista de posts después de la eliminación
       // Puedes utilizar react-router o cualquier otra lógica de enrutamiento aquí
@@ -61,22 +62,34 @@ const PostDetailPage = () => {
   };
   //hasta
   return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>{post.description}</p>
-
-      <h2>Comentarios</h2>
-      <ul>
-        {comments.map((comment) => (
-          <li key={comment._id}>{comment.description}</li>
-        ))}
-      </ul>
+    <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
+      <h1 className='text-2xl font-bold'>{post.title}</h1>
+      {/* Muestra la imagen desde la URL */}
+      
+      <p className='text-slate-300'>{post.description}</p>
+      <p className='text-slate-300'>{new Date(post.updatedAt).toLocaleDateString()}</p>
 
       {/* Botón de eliminación */}
       <button onClick={handleDelete}>Eliminar Post</button>
+     
+
+
+      
+        <ul className='text-slate-300'>
+          {comments.map((comment) => (
+            <li key={comment._id}>{comment.description}</li>
+          ))}
+        </ul>
+    
+
 
       {/* Formulario para crear comentario */}
-      <CreateCommentForm postId={postId} userId={user ? user.id : null} onCommentCreated={handleCommentCreated} />
+      <div className='bg-red-500 max-w-md w-full p-10 rounded-md'>
+
+        <CreateCommentForm postId={postId} userId={user ? user.id : null} onCommentCreated={handleCommentCreated} />
+
+      </div>
+
     </div>
   );
 };

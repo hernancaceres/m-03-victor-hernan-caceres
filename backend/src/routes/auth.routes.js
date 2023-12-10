@@ -19,6 +19,6 @@ authRouter.post("/logout", logout);
 
 //Rutas para el Perfil
 
-authRouter.get("/profile",authRequired, profile);
+authRouter.get("/profile/:userId",authRequired, profile);
 
 export default authRouter
