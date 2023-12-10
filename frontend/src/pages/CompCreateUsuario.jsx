@@ -20,6 +20,7 @@ const CompCreateUsuario = () => {
 
     try {
       console.log('Intentando realizar la solicitud...');
+      console.log('Nombre de usuario:', nombre); 
 
       const response = await axios.post(
         URI,

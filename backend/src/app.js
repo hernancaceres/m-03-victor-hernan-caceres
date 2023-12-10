@@ -40,9 +40,12 @@ app.get('/api/verifyToken', (req, res) => {
         return res.status(401).json({ message: 'Token inválido' });
       }
   
+      
       // Enviar información del usuario
+      console.log('Decoded token:', decoded);
       res.json({ id: decoded.id, username: decoded.username }); // Ajusta según tu modelo de usuario
     });
+    
   });
 
 

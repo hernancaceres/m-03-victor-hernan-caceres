@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
-// ... (importaciones existentes)
-
 function Navbar() {
   const { user, dispatch } = useUser();
   const navigate = useNavigate();
+
+  console.log('Contenido completo del usuario:', user);
 
   const logout = () => {
     // Realiza la acción de logout despachando la acción 'LOGOUT'
@@ -38,12 +38,17 @@ function Navbar() {
           </li>
         )}
         {user ? (
-          // Mostrar el botón de logout si el usuario está autenticado
-          <li>
-            <button onClick={logout} className="bg-violet-900 px-4 py-2 rounded-sm">
-              Logout
-            </button>
-          </li>
+          // Mostrar el botón de logout y el mensaje de bienvenida si el usuario está autenticado
+          <>
+            <li>
+              <span className="text-white mr-2">Bienvenido {user.username}</span>
+            </li>
+            <li>
+              <button onClick={logout} className="bg-violet-900 px-4 py-2 rounded-sm">
+                Logout
+              </button>
+            </li>
+          </>
         ) : (
           // Mostrar los enlaces de login y registro si el usuario no está autenticado
           <>
@@ -69,12 +74,16 @@ export default Navbar;
 
 
 
+
+
+
 // import { Link } from "react-router-dom";
 // import { useUser } from "../context/UserContext";
 // import { useNavigate } from "react-router-dom";
 
-// function Navbar() {
+// // ... (importaciones existentes)
 
+// function Navbar() {
 //   const { user, dispatch } = useUser();
 //   const navigate = useNavigate();
 
@@ -90,18 +99,23 @@ export default Navbar;
 
 //   return (
 //     <nav className="bg-purple-900 my-3 flex justify-between py-5 px-10 rounded-lg">
-//       <Link to="/"><h1 className="text-2xl font-bold">Navbar</h1></Link>
+//       <Link to="/">
+//         <h1 className="text-2xl font-bold">Navbar</h1>
+//       </Link>
 //       <ul className="flex gap-x-2">
 //         <li>
 //           <Link to="/posts" className="bg-violet-900 px-4 py-2 rounded-sm">
 //             Ver Los Posts
 //           </Link>
 //         </li>
-//         <li>
-//           <Link to="/create-post" className="bg-violet-900 px-4 py-2 rounded-sm">
-//             Crear un Post
-//           </Link>
-//         </li>
+//         {/* Mostrar el botón "Crear un Post" solo si el usuario está autenticado */}
+//         {user && (
+//           <li>
+//             <Link to="/create-post" className="bg-violet-900 px-4 py-2 rounded-sm">
+//               Crear un Post
+//             </Link>
+//           </li>
+//         )}
 //         {user ? (
 //           // Mostrar el botón de logout si el usuario está autenticado
 //           <li>
@@ -128,4 +142,5 @@ export default Navbar;
 //     </nav>
 //   );
 // }
+
 // export default Navbar;

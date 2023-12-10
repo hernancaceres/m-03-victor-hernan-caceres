@@ -29,13 +29,15 @@ const userReducer = (state, action) => {
       console.log('Reducer: Login success:', action.payload);
       // Actualiza el estado con el ID del usuario después del inicio de sesión
       const userId = action.payload.userId;
-      // Actualiza el estado con el ID del usuario después del inicio de sesión
+     
+      // Actualiza el estado con el ID y el nombre de usuario después del inicio de sesión
       return {
         ...state,
-        isAuthenticated: true, // Asegúrate de establecer isAuthenticated en true
+        isAuthenticated: true,
         user: {
           ...state.user,
-          id: action.payload.userId, // Asegúrate de que la respuesta del servidor incluya el ID del usuario
+          id: action.payload.userId,
+          username: action.payload.username, // Asegúrate de que la respuesta del servidor incluya el nombre de usuario
         },
       };
 
@@ -58,8 +60,18 @@ const userReducer = (state, action) => {
 };
 
 export const UserProvider = ({ children }) => {
+// Intenta obtener la información del usuario y el token del almacenamiento local
+const storedUserId = localStorage.getItem('userId');
+const storedUsername = localStorage.getItem('username');
+const storedToken = localStorage.getItem('token');
 
-  const [state, dispatch] = useReducer(userReducer, { user: null, isAuthenticated: false });
+// Configura el estado inicial en función de la información almacenada
+const initialState = {
+  user: storedUserId ? { id: storedUserId, username: storedUsername } : null,
+  isAuthenticated: !!storedToken,
+};
+
+const [state, dispatch] = useReducer(userReducer, initialState);
 
   console.log('UserProvider: User context state:', state);
 
@@ -87,10 +99,6 @@ export const useUser = () => {
   }
   return context;
 };
-
-
-
-
 
 
 
@@ -127,13 +135,15 @@ export const useUser = () => {
 //       console.log('Reducer: Login success:', action.payload);
 //       // Actualiza el estado con el ID del usuario después del inicio de sesión
 //       const userId = action.payload.userId;
-//       // Actualiza el estado con el ID del usuario después del inicio de sesión
+     
+//       // Actualiza el estado con el ID y el nombre de usuario después del inicio de sesión
 //       return {
 //         ...state,
-//         isAuthenticated: true, // Asegúrate de establecer isAuthenticated en true
+//         isAuthenticated: true,
 //         user: {
 //           ...state.user,
-//           id: action.payload.userId, // Asegúrate de que la respuesta del servidor incluya el ID del usuario
+//           id: action.payload.userId,
+//           username: action.payload.username, // Asegúrate de que la respuesta del servidor incluya el nombre de usuario
 //         },
 //       };
 
@@ -144,8 +154,8 @@ export const useUser = () => {
 //       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/api/verifyToken;";
 
 //       return {
-//         ...state,
 //         user: null,
+//         isAuthenticated: false, // Establece isAuthenticated en false al cerrar sesión
 //       };
 
 //     // Otros casos para manejar acciones como  'UPDATE_USER', etc.
@@ -185,3 +195,4 @@ export const useUser = () => {
 //   }
 //   return context;
 // };
+

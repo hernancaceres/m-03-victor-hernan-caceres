@@ -43,10 +43,13 @@ function LoginForm() {
 
         // Guarda el token en el almacenamiento local
         localStorage.setItem("token", token);
+        // localStorage.setItem('userId', response.data.id);
+        // localStorage.setItem('username', response.data.username);
 
         // Despacha la acción para establecer el usuario después del inicio de sesión
-        dispatch({ type: 'LOGIN_SUCCESS', payload: { userId: response.data.id } });
+        dispatch({ type: 'LOGIN_SUCCESS', payload: { userId: response.data.id, username: response.data.username, } });
 
+        console.log( "username LOGIN_SUCCESS en login",response.data.username);
         console.log('Despacho de acción LOGIN_SUCCESS');
 
 

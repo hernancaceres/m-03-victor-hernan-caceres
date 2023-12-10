@@ -49,7 +49,7 @@ export const register = async (req, res) => {
               }
             ); */
         //TOKEN: forma 2:
-        const token = await createAccessToken({ id: userSaved._id });
+        const token = await createAccessToken({ id: userSaved._id, username: userFound.username});
         res.cookie("token", token);
         res.json({
             message: "Usuario registrado con éxito",
@@ -73,8 +73,6 @@ export const register = async (req, res) => {
 };
 
 
-
-
 // //LOGIN  
 // export const login = async (req, res) => {
 //     const { email, password } = req.body;
@@ -86,6 +84,7 @@ export const register = async (req, res) => {
 //         //VERIFICAMOS EL EMAIL
 //         if (!userFound)
 //             return res.status(400).json({ message: "El usuario no esta registrado" });
+
 //         const matchPassword = await bcrypt.compare(password, userFound.password);
 
 //         //VERIFICAMOS EL PASSWORD
@@ -94,9 +93,9 @@ export const register = async (req, res) => {
 //         } else {
 
 //             //generamos el token nuevamento por si expiró
-//             const token = await createAccessToken({ id: userFound._id });
+//             const token = await createAccessToken({ id: userFound._id, username: userFound.username });
 
-//             res.cookie("token", token);
+//             res.cookie("token", token, { sameSite: 'None', secure: true, httpOnly: true });
 //             res.json({
 //                 token,
 //                 id: userFound.id,
@@ -115,21 +114,21 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        //buscamos el usuario en la base de datos en base al emali ingresado por el usuario
+        // Buscamos el usuario en la base de datos en base al email ingresado por el usuario
         const userFound = await User.findOne({ email });
 
-        //VERIFICAMOS EL EMAIL
+        // Verificamos el email
         if (!userFound)
-            return res.status(400).json({ message: "El usuario no esta registrado" });
+            return res.status(400).json({ message: "El usuario no está registrado" });
+
         const matchPassword = await bcrypt.compare(password, userFound.password);
 
-        //VERIFICAMOS EL PASSWORD
+        // Verificamos el password
         if (!matchPassword) {
-            return res.status(400).json({ message: "Password incorrecto", token: null });
+            return res.status(400).json({ message: "Contraseña incorrecta", token: null });
         } else {
-
-            //generamos el token nuevamento por si expiró
-            const token = await createAccessToken({ id: userFound._id });
+            // Generamos el token nuevamente por si expiró
+            const token = await createAccessToken({ id: userFound._id, username: userFound.username });
 
             res.cookie("token", token, { sameSite: 'None', secure: true, httpOnly: true });
             res.json({
@@ -137,13 +136,13 @@ export const login = async (req, res) => {
                 id: userFound.id,
                 username: userFound.username,
                 email: userFound.email,
-
             });
         }
     } catch (error) {
         return res.status(500).json({ message: "Error en el inicio de sesión", error });
     }
 };
+
 
 
 //Logout de usuario
