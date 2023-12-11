@@ -10,7 +10,7 @@ export const getAllUsuarios = async (req, res) => {
     res.json(usuarios);
 };
 
-//REGISTRO 
+/* //REGISTRO 
 export const register = async (req, res) => {
     const { username, email, password, avatarURL, roles } = req.body;
 
@@ -46,9 +46,9 @@ export const register = async (req, res) => {
                 console.log(token);
                 res.json(userSaved);
               }
-            ); */
+            ); 
         //TOKEN: forma 2:
-        const token = await createAccessToken({ id: userSaved._id, username: userFound.username});
+        const token = await createAccessToken({ id: userSaved._id, username: userSaved.username,});
         res.cookie("token", token);
         res.json({
             message: "Usuario registrado con éxito",
@@ -67,6 +67,59 @@ export const register = async (req, res) => {
         }
 
         res.status(500).json({ message: "Error al registrar al Usuario", error });
+        console.log(error);
+    }
+};
+ */
+
+//REGISTRO 
+export const register = async (req, res) => {
+    const { username, email, password, avatarURL, roles } = req.body;
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10); //encriptamos la contraseña
+        const newUser = new User({ username, email, avatarURL, password: hashedPassword });
+
+        //logica para los roles
+        if (roles) {
+            const foundRoles = await Role.find({ name: { $in: roles } });
+            newUser.roles = foundRoles.map((rol) => rol._id);
+        } else {
+            const role = await Role.findOne({
+                name: "user",
+            });
+            newUser.roles = [role._id];
+        }
+
+        if (req.file) {
+            console.log('Ruta del archivo:', req.file.path);
+            console.log('Nombre del archivo:', req.file.filename);
+        
+            newUser.avatarURL = req.file.filename; // Ajusta según tu configuración
+        }
+
+        //Guardamos al registro de user
+        const userSaved = await newUser.save();
+
+        //Generamos el Token
+        const token = await createAccessToken({ id: userSaved._id, username: userSaved.username });
+        res.cookie("token", token);
+        res.json({
+            message: "Usuario registrado con éxito",
+            id: userSaved.id,
+            username: userSaved.username,
+            email: userSaved.email,
+            avatarURL: userSaved.avatarURL
+        });
+
+        // res.status(200).json(userSaved);
+    } catch (error) {
+        if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
+            // Si el error es de correo electrónico duplicado, envía un código de estado personalizado
+            return res.status(409).json({ message: "El correo electrónico ya está registrado." });
+        }
+
+        res.status(500).json({ message: "registro, Error al registrar al Usuario", error });
         console.log(error);
     }
 };

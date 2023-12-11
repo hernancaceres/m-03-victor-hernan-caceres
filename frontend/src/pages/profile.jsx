@@ -32,6 +32,13 @@ function Profile() {
     <div>
       <h2>Perfil de {userData.username}</h2>
       <p>Email: {userData.email}</p>
+      {userData.avatarURL && (
+        <img
+          src={`http://localhost:4000/imagenes/${userData.avatarURL}`}
+          alt="Avatar"
+          style={{ maxWidth: '200px', maxHeight: '200px' }}
+        />
+      )}
       {/* Mostrar otros detalles del perfil del usuario según tus necesidades */}
     </div>
   );
