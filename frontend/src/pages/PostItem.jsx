@@ -4,27 +4,30 @@ import { useUser } from '../context/UserContext'; // Asegúrate de importar useU
 
 const PostItem = ({ post, onDelete }) => {
   const { _id, title, description, autor, imageURL } = post;
-  const { user } = useUser();
+  const { user, dispatch } = useUser();
 
 
   const handleDeleteClick = () => {
     onDelete(_id);
   };
-  console.log("post aqui",post)
+  console.log("post aqui", post)
 
- 
+
   return (
     <div className="post-item">
 
       <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
+
+      <p className='text-slate-300'>{autor}</p>
+
         <h2 className='text-2xl font-bold'>{title}</h2>
 
-  {/* Muestra la imagen desde la URL */}
-  {imageURL && <img src={imageURL} alt="Post Image" style={{ maxWidth: '100%' }} />}
+        {/* Muestra la imagen desde la URL */}
+        {imageURL && <img src={imageURL} alt="Post Image" style={{ maxWidth: '100%' }} />}
 
         <p className='text-slate-300'>{description}</p>
 
-        <p className='text-slate-300'>{ new Date(post.updatedAt).toLocaleDateString()}</p>
+        <p className='text-slate-300'>{new Date(post.updatedAt).toLocaleDateString()}</p>
 
         {/* Botón para ir a la página de detalles del post */}
         <Link to={`/post/${_id}`}>

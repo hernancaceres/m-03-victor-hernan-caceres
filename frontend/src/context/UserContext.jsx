@@ -12,6 +12,7 @@ const userReducer = (state, action) => {
       return {
         ...state,
         user: action.payload,
+        isAuthenticated: true, // Asegúrate de actualizar isAuthenticated según tus necesidades
       };
 
     case 'REGISTER_SUCCESS':
@@ -29,7 +30,7 @@ const userReducer = (state, action) => {
       console.log('Reducer: Login success:', action.payload);
       // Actualiza el estado con el ID del usuario después del inicio de sesión
       const userId = action.payload.userId;
-     
+      const userAvatarURL = action.payload.userAvatarURL;
       // Actualiza el estado con el ID y el nombre de usuario después del inicio de sesión
       return {
         ...state,
@@ -38,6 +39,7 @@ const userReducer = (state, action) => {
           ...state.user,
           id: action.payload.userId,
           username: action.payload.username, // Asegúrate de que la respuesta del servidor incluya el nombre de usuario
+          avatarURL: action.payload.avatarURL,
         },
       };
 
@@ -63,11 +65,12 @@ export const UserProvider = ({ children }) => {
 // Intenta obtener la información del usuario y el token del almacenamiento local
 const storedUserId = localStorage.getItem('userId');
 const storedUsername = localStorage.getItem('username');
+const storedAvatarURL = localStorage.getItem('avatarURL');
 const storedToken = localStorage.getItem('token');
 
 // Configura el estado inicial en función de la información almacenada
 const initialState = {
-  user: storedUserId ? { id: storedUserId, username: storedUsername } : null,
+  user: storedUserId ? { id: storedUserId, username: storedUsername, avatarURL: storedAvatarURL } : null,
   isAuthenticated: !!storedToken,
 };
 

@@ -1,4 +1,3 @@
-
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
@@ -11,13 +10,6 @@ import authRouter from "./routes/auth.routes.js";
 import postRouter from "./routes/post.routes.js";
 import commentRouter from "./routes/comment.routes.js";  // Nombre del archivo de rutas de comentarios
 import { createRoles } from "./initial.setup.js";
-import path from "path";
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-// Obtén la ruta del directorio del módulo
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 
 
@@ -30,6 +22,7 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(express.json());
 app.use(morgan("dev"));
+
 
 
 app.use(cors({
@@ -56,7 +49,7 @@ app.get('/api/verifyToken', (req, res) => {
       
       // Enviar información del usuario
       console.log('Decoded token:', decoded);
-      res.json({ id: decoded.id, username: decoded.username }); // Ajusta según tu modelo de usuario
+      res.json({ id: decoded.id, username: decoded.username, avatarURL: decoded.avatarURL }); // Ajusta según tu modelo de usuario
     });
     
   });
@@ -67,13 +60,14 @@ app.use((err, req, res, next) => {
 });
 
 
-app.use('/imagenes', express.static(path.join(__dirname, 'src', 'imagenes')));
-
 
 app.use("/", indexRoutes);
 app.use("/api/", authRouter);
 app.use("/api/", postRouter);
 app.use("/api/", commentRouter);  // Rutas de comentarios
+
+
+
 
 
 
@@ -90,6 +84,13 @@ app.use("/api/", commentRouter);  // Rutas de comentarios
 // import commentRouter from "./routes/comment.routes.js";  // Nombre del archivo de rutas de comentarios
 // import { createRoles } from "./initial.setup.js";
 
+// import path from "path";
+// import { fileURLToPath } from 'url';
+// import { dirname } from 'path';
+
+// // Obtén la ruta del directorio del módulo
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
 
 // export const app = express();
@@ -103,11 +104,18 @@ app.use("/api/", commentRouter);  // Rutas de comentarios
 // app.use(morgan("dev"));
 
 
-
 // app.use(cors({
 //     origin: 'http://localhost:5173',  // Reemplaza con la URL de tu aplicación de React
 //     credentials: true,
 // }));
+
+// /* app.use(cors({
+//   origin: 'http://localhost:5173',
+//   credentials: true,
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   allowedHeaders: "Content-Type,Authorization",
+// })); */
+
 
 
 
@@ -128,7 +136,7 @@ app.use("/api/", commentRouter);  // Rutas de comentarios
       
 //       // Enviar información del usuario
 //       console.log('Decoded token:', decoded);
-//       res.json({ id: decoded.id, username: decoded.username }); // Ajusta según tu modelo de usuario
+//       res.json({ id: decoded.id, username: decoded.username, avatarURL: decoded.avatarURL }); // Ajusta según tu modelo de usuario
 //     });
     
 //   });
@@ -139,6 +147,7 @@ app.use("/api/", commentRouter);  // Rutas de comentarios
 // });
 
 
+// app.use('/imagenes', express.static(path.join(__dirname, 'src', 'imagenes')));
 
 // app.use("/", indexRoutes);
 // app.use("/api/", authRouter);

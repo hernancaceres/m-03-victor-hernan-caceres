@@ -6,7 +6,7 @@ function Navbar() {
   const { user, dispatch } = useUser();
   const navigate = useNavigate();
 
-  console.log('Contenido completo del usuario:', user);
+  console.log('usuario navbar:', user);
 
   const logout = () => {
     // Realiza la acción de logout despachando la acción 'LOGOUT'
@@ -44,6 +44,18 @@ function Navbar() {
               <Link to={`/profile/${user.id}`} className="bg-violet-900 px-4 py-2 rounded-sm">
                 Mi Perfil
               </Link>
+            </li>
+            <li>
+              {/* Mostrar la imagen del usuario */}
+              {user && user.avatarURL && (
+                <img
+                  src={user.avatarURL}
+                  alt="Avatar"
+                  className="w-8 h-8 rounded-full"
+                  style={{ marginLeft: '8px' }}
+                />
+              )}
+
             </li>
             <li>
               <span className="text-white mr-2">Bienvenido {user.username}</span>

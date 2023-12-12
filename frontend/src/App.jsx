@@ -10,7 +10,7 @@ import axiosInstance from './components/axios';
 import Cookies from 'js-cookie';
 import CreatePostForm from './pages/CreatePostForm';
 import { Suspense } from 'react';
-import Navbar from './components/navbar';
+import Navbar from './components/Navbar';
 import PostDetailPage from './pages/PostDetailPage';
 import PostList from './pages/PostList';
 import UpdatePostPage from './pages/UpdatePostPage';
@@ -48,7 +48,7 @@ if (response.data && response.data.id && response.data.username) {
   // Despachar la acción de autenticación con la información del usuario
   dispatch({
     type: 'LOGIN_SUCCESS',
-    payload: { userId: response.data.id, username: response.data.username },
+    payload: { userId: response.data.id, username: response.data.username, avatarURL: response.data.avatarURL, },
   });
 } 
           console.log('Autenticación exitosa. Usuario autenticado.');

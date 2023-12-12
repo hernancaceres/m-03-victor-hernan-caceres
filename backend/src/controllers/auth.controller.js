@@ -10,7 +10,7 @@ export const getAllUsuarios = async (req, res) => {
     res.json(usuarios);
 };
 
-/* //REGISTRO 
+//REGISTRO 
 export const register = async (req, res) => {
     const { username, email, password, avatarURL, roles } = req.body;
 
@@ -35,20 +35,20 @@ export const register = async (req, res) => {
 
         //Generamos el Token
 
-        //TOKEN: forma 1:
-        /*     jwt.sign(
-              { id: userSaved._id },
-              "proyectoBd",
-              { expiresIn: "1h" },
-              (err, token) => {
-                if (err) console.log(err);
-                res.cookie("token", token);
-                console.log(token);
-                res.json(userSaved);
-              }
-            ); 
+        /*       //TOKEN: forma 1:
+                  jwt.sign(
+                    { id: userSaved._id },
+                    "proyectoBd",
+                    { expiresIn: "1h" },
+                    (err, token) => {
+                      if (err) console.log(err);
+                      res.cookie("token", token);
+                      console.log(token);
+                      res.json(userSaved);
+                    }
+                  );  */
         //TOKEN: forma 2:
-        const token = await createAccessToken({ id: userSaved._id, username: userSaved.username,});
+        const token = await createAccessToken({ id: userSaved._id, username: userSaved.username, avatarURL: userSaved.avatarURL });
         res.cookie("token", token);
         res.json({
             message: "Usuario registrado con éxito",
@@ -70,9 +70,10 @@ export const register = async (req, res) => {
         console.log(error);
     }
 };
- */
 
-//REGISTRO 
+
+
+/* //REGISTRO 
 export const register = async (req, res) => {
     const { username, email, password, avatarURL, roles } = req.body;
 
@@ -102,7 +103,7 @@ export const register = async (req, res) => {
         const userSaved = await newUser.save();
 
         //Generamos el Token
-        const token = await createAccessToken({ id: userSaved._id, username: userSaved.username });
+        const token = await createAccessToken({ id: userSaved._id, username: userSaved.username, avatarURL: userSaved.avatarURL });
         res.cookie("token", token);
         res.json({
             message: "Usuario registrado con éxito",
@@ -122,7 +123,7 @@ export const register = async (req, res) => {
         res.status(500).json({ message: "registro, Error al registrar al Usuario", error });
         console.log(error);
     }
-};
+}; */
 
 //LOGIN  
 export const login = async (req, res) => {
@@ -143,7 +144,7 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: "Contraseña incorrecta", token: null });
         } else {
             // Generamos el token nuevamente por si expiró
-            const token = await createAccessToken({ id: userFound._id, username: userFound.username });
+            const token = await createAccessToken({ id: userFound._id, username: userFound.username, avatarURL: userFound.avatarURL });
 
             res.cookie("token", token, { sameSite: 'None', secure: true, httpOnly: true });
             res.json({
@@ -151,6 +152,7 @@ export const login = async (req, res) => {
                 id: userFound.id,
                 username: userFound.username,
                 email: userFound.email,
+                avatarURL: userFound.avatarURL
             });
         }
     } catch (error) {
@@ -171,11 +173,16 @@ export const profile = async (req, res) => {
         if (!userFound)
             return res.status(400).json({ message: "Usuario no encontrado" });
 
+
+        // Agrega el console.log para imprimir la URL de la imagen
+        console.log('URL de la imagen enviada:', userFound.avatarURL);
+
         res.json({
             message: "Perfil",
             id: userFound.id,
             username: userFound.username,
             email: userFound.email,
+            avatarURL: userFound.avatarURL
         });
     } catch (error) {
         res.status(500).json({ message: "Error en el perfil", error });
