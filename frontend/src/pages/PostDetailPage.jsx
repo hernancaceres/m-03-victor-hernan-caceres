@@ -10,6 +10,42 @@ const PostDetailPage = () => {
   const [comments, setComments] = useState([]);
   const { user } = useUser(); // Utiliza useUser desde el contexto de usuario
   const token = localStorage.getItem('token');
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editedCommentText, setEditedCommentText] = useState('');
+
+  const handleCommentEdit = (comment) => {
+    setEditingCommentId(comment._id);
+    setEditedCommentText(comment.description);
+  };
+
+  const handleCommentUpdate = async (e, commentId) => {
+    e.preventDefault();
+
+    try {
+      await axios.put(
+        `http://localhost:4000/api/comment/${commentId}`,
+        { description: editedCommentText },
+        {
+          headers: {
+            'x-access-token': token,
+          },
+          withCredentials: true,
+        }
+      );
+
+      // Actualiza el estado de los comentarios después de la edición
+      const updatedComments = comments.map((comment) =>
+        comment._id === commentId ? { ...comment, description: editedCommentText } : comment
+      );
+
+      setComments(updatedComments);
+      setEditingCommentId(null);
+      setEditedCommentText('');
+    } catch (error) {
+      console.error('Error al actualizar el comentario:', error);
+    }
+  };
+
 
   useEffect(() => {
     console.log('Usuario:', user);
@@ -93,22 +129,44 @@ const PostDetailPage = () => {
       )}
 
       <h2 className="text-slate-100 font-semibold py-3">Comentarios:</h2>
-      <ul className='text-slate-300 font-serif'>
-      {comments.map((comment) => (
-      <li key={comment._id}>
-      {comment.description}
 
-      {/* Botón de eliminación del comentario */}
-      {(user && (user.id === post.autor._id || user.id === comment.autor)) && (
-      <button onClick={() => {
-        console.log('Intento de eliminación de comentario:', comment);
-        handleCommentDelete(comment._id);
-      }} className='bg-red-900 text-white px-2 py-1 ml-2 rounded-md'>
-        Eliminar Comentario
-      </button>
+      <ul className='text-slate-300 font-serif'>
+        
+{comments.map((comment) => (
+  <li key={comment._id}>
+    {comment.description}
+
+    {/* Botones de edición y eliminación del comentario */}
+    {(user && (user.id === post.autor._id || user.id === comment.autor)) && (
+      <div className="comment-buttons">
+        <button
+          onClick={() => handleCommentDelete(comment._id)}
+          className='bg-red-900 text-white px-2 py-1 ml-2 rounded-md'>
+          Eliminar Comentario
+        </button>
+
+        <button
+          onClick={() => handleCommentEdit(comment)}
+          className='bg-blue-500 text-white px-2 py-1 ml-2 rounded-md'>
+          Editar Comentario
+        </button>
+      </div>
     )}
-       </li>
+
+    {/* Formulario de edición del comentario */}
+    {editingCommentId === comment._id && (
+      <form onSubmit={(e) => handleCommentUpdate(e, comment._id)}>
+        <textarea
+          value={editedCommentText}
+          onChange={(e) => setEditedCommentText(e.target.value)}
+          rows="3"
+        />
+        <button type="submit">Guardar Cambios</button>
+      </form>
+    )}
+  </li>
 ))}
+
 
       </ul>
 
@@ -141,6 +199,7 @@ export default PostDetailPage;
 //   const token = localStorage.getItem('token');
 
 //   useEffect(() => {
+//     console.log('Usuario:', user);
 //     const fetchPostDetails = async () => {
 //       try {
 //         const response = await axios.get(`http://localhost:4000/api/post/${postId}`);
@@ -160,7 +219,7 @@ export default PostDetailPage;
 //     };
 
 //     fetchPostDetails();
-//   }, [postId]);
+//   }, [user, postId]);
 
 //   const handleDelete = async () => {
 //     try {
@@ -200,12 +259,12 @@ export default PostDetailPage;
 //     return <div>Cargando...</div>;
 //   }
 
-//   //desde
+//   // desde
 //   const handleCommentCreated = (newComment) => {
 //     // Lógica para actualizar el estado de los comentarios en PostDetailPage
 //     setComments([...comments, newComment]);
 //   };
-//   //hasta
+//   // hasta
 //   return (
 //     <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
 //       <p className='text-slate-300'>Autor: {post.autor.username}</p>
@@ -220,35 +279,38 @@ export default PostDetailPage;
 //         <button onClick={handleDelete} className='bg-violet-900 text-white px-4 py-2 rounded-md my-2'>Eliminar Post</button>
 //       )}
 
-//        <h2 className="text-slate-100 font-semibold py-3">Comentarios:</h2>
-      
-//        <ul className='text-slate-300 font-serif'>
-//         {comments.map((comment) => (
-//           <li key={comment._id}>
-//             {comment.description}
-            
-//             {/* Botón de eliminación del comentario */}
-//             {(user && (user.id === post.autor._id || user.id === comment.userId)) && (
-//               <button onClick={() => handleCommentDelete(comment._id)} className='bg-red-900 text-white px-2 py-1 ml-2 rounded-md'>
-//                 Eliminar Comentario
-//               </button>
-//             )}
-//           </li>
-//         ))}
+//       <h2 className="text-slate-100 font-semibold py-3">Comentarios:</h2>
+//       <ul className='text-slate-300 font-serif'>
+//       {comments.map((comment) => (
+//       <li key={comment._id}>
+//       {comment.description}
+
+//       {/* Botón de eliminación del comentario */}
+//       {(user && (user.id === post.autor._id || user.id === comment.autor)) && (
+//       <button onClick={() => {
+//         console.log('Intento de eliminación de comentario:', comment);
+//         handleCommentDelete(comment._id);
+//       }} className='bg-red-900 text-white px-2 py-1 ml-2 rounded-md'>
+//         Eliminar Comentario
+//       </button>
+//     )}
+//        </li>
+// ))}
+
 //       </ul>
 
-//         {/* Formulario para crear comentarios */}
-//         <div className='bg-red-500 max-w-md w-full p-10 rounded-md'>
-
-//           <CreateCommentForm postId={postId} userId={user ? user.id : null} onCommentCreated={handleCommentCreated} />
-
-//         </div>
-
+//       {/* Formulario para crear comentarios */}
+//       <div className='bg-red-500 max-w-md w-full p-10 rounded-md'>
+//         <CreateCommentForm postId={postId} userId={user ? user.id : null} onCommentCreated={handleCommentCreated} />
+//       </div>
 //     </div>
 //   );
 // };
 
 // export default PostDetailPage;
+
+
+
 
 
 
