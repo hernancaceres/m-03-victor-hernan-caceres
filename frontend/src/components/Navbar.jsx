@@ -19,13 +19,13 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-purple-900 my-3 flex justify-between py-5 px-10 rounded-lg items-center">
+    <nav className="bg-purple-900 my-3 flex justify-between py-5 px-10 rounded-lg ">
       <Link to="/">
         <h1 className="text-2xl font-bold">Navbar</h1>
       </Link>
-      <ul className="flex gap-x-2">
+      <ul className="flex gap-x-2 items-center">
         <li>
-          <Link to="/posts" className="bg-violet-900 px-4 py-2 rounded-sm">
+          <Link to="/posts" className="bg-violet-900 px-4 py-2  rounded-sm">
             Ver Los Posts
           </Link>
         </li>
@@ -61,8 +61,8 @@ function Navbar() {
               )}
             </li>
 
-            <li className="inline-block align-middle" >
-              <button onClick={logout} className="bg-violet-900 px-4 py-2 rounded-sm inline-block align-middle">
+            <li className="" >
+              <button onClick={logout} className="bg-violet-900 px-4 py-2 rounded-sm ">
                 Logout
               </button>
             </li>
