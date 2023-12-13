@@ -10,7 +10,6 @@ const PostDetailPage = () => {
   const [comments, setComments] = useState([]);
   const { user } = useUser(); // Utiliza useUser desde el contexto de usuario
   const token = localStorage.getItem('token');
-  
 
   useEffect(() => {
     const fetchPostDetails = async () => {
@@ -64,26 +63,23 @@ const PostDetailPage = () => {
   return (
     <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
       <h1 className='text-2xl font-bold'>{post.title}</h1>
-      {/* Muestra la imagen desde la URL */}
-      
+      {/* Mostrar la imagen del post si imageURL está presente */}
+      {post.imageURL && <img src={post.imageURL} alt="Post Image" style={{ maxWidth: '100%' }} />}
       <p className='text-slate-300'>{post.description}</p>
       <p className='text-slate-300'>{new Date(post.updatedAt).toLocaleDateString()}</p>
-
+      <p className='text-slate-300'>Autor: {post.autor.username}</p>
       {/* Botón de eliminación */}
-      <button onClick={handleDelete}>Eliminar Post</button>
-     
+      <button onClick={handleDelete}className='bg-violet-900 text-white px-4 py-2 rounded-md my-2 '>Eliminar Post</button>
 
+      <h2 className="text-slate-100 font-semibold">Comentarios</h2>
 
-      
-        <ul className='text-slate-300'>
-          {comments.map((comment) => (
-            <li key={comment._id}>{comment.description}</li>
-          ))}
-        </ul>
-    
+      <ul className='text-slate-300 font-serif'>
+        {comments.map((comment) => (
+          <li key={comment._id}>{comment.description}</li>
+        ))}
+      </ul>
 
-
-      {/* Formulario para crear comentario */}
+      {/* Formulario para crear comentarios */}
       <div className='bg-red-500 max-w-md w-full p-10 rounded-md'>
 
         <CreateCommentForm postId={postId} userId={user ? user.id : null} onCommentCreated={handleCommentCreated} />

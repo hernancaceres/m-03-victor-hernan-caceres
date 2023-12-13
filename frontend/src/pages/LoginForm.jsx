@@ -47,11 +47,11 @@ function LoginForm() {
         // localStorage.setItem('username', response.data.username);
 
         // Despacha la acción para establecer el usuario después del inicio de sesión
-        dispatch({ type: 'LOGIN_SUCCESS', payload: { userId: response.data.id, username: response.data.username, } });
+        dispatch({ type: 'LOGIN_SUCCESS', payload: { userId: response.data.id, username: response.data.username, avatarURL: response.data.avatarURL, } });
 
         console.log( "username LOGIN_SUCCESS en login",response.data.username);
         console.log('Despacho de acción LOGIN_SUCCESS');
-
+        console.log( "avatarURL LOGIN_SUCCESS en login",response.data.avatarURL);
 
         // // Redirige a la página de crear post
         navigate('/create-post');
@@ -104,8 +104,6 @@ function LoginForm() {
           </div>
           <button type="submit"  >Iniciar sesión</button>
         </form>
-
-
 
         <p className="flex gap-x-2 justify-between">
           ¿No tienes una cuenta? <Link to="/register"
