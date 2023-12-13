@@ -26,19 +26,29 @@ const PostItem = ({ post, onDelete }) => {
     <div className="post-item">
       <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
 
+        {/* Mostrar la imagen del avatar si está presente */}
+        {post.autor.avatarURL && (
+          <img
+            src={post.autor.avatarURL}
+            alt={`${post.autor.username}'s Avatar`}
+            className="w-6 h-6 rounded-full object-cover"
+            style={{ marginLeft: '2px', marginRight: '6px' }}
+          />
+        )}
+
         {/* Mostrar el nombre del autor */}
-        <p className='text-slate-300'>Autor: {autorUsername}</p>
-        <p className='text-slate-300'>{new Date(post.updatedAt).toLocaleDateString()}</p>
-        <h2 className='text-2xl font-bold'>{title}</h2>
+        <p className='text-slate-300'> {autorUsername}</p>
+        
+        <h2 className='text-2xl font-bold py-2'>{title}</h2>
         {/* Muestra la imagen desde la URL */}
         {imageURL && <img src={imageURL} alt="Post Image" style={{ maxWidth: '100%' }} />}
         {/* Mostrar solo un fragmento de la descripción */}
         <p className='text-slate-300'>{truncatedDescription}</p>
-        
+        <p className='text-slate-400 py-1'> {new Date(post.updatedAt).toLocaleDateString()}</p>
 
         {/* Botón para ir a la página de detalles del post */}
         <Link to={`/post/${_id}`}>
-          <button>Ver Detalles del Post</button>
+          <button className='bg-purple-600 px-4 py-2 my-2 rounded-md'>Ver Detalles del Post</button>
         </Link>
 
         {/* Botones de edición y eliminación */}

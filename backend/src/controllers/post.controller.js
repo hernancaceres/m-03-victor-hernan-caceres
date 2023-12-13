@@ -11,7 +11,7 @@ export const getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find().populate({
       path: 'autor',
-      select: 'username', // Asegúrate de seleccionar el campo 'username'
+      select: 'username avatarURL', // Asegúrate de seleccionar el campo 'username'
     });
 
     res.json(posts);
@@ -49,7 +49,7 @@ export const getPostById = async (req, res) => {
   try {
     const post = await Post.findById(postId).populate({
       path: 'autor',
-      select: 'username', // Asegúrate de seleccionar el campo 'username'
+      select: 'username avatarURL', // Asegúrate de seleccionar el campo 'username'
     });
 
     console.log("Obtener un post por ID",post)

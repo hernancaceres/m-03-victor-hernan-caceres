@@ -30,7 +30,8 @@ export const createComment = async (req, res) => {
   }
 };
 
-// obtener todos los comentarios
+
+/* // obtener todos los comentarios
 export const getAllComments = async (req, res) => {
   try {
     const comments = await Comment.find();
@@ -39,9 +40,26 @@ export const getAllComments = async (req, res) => {
     console.error("Error al obtener todos los comentarios:", error);
     res.status(500).json({ message: "Error al obtener todos los comentarios", error });
   }
+}; */
+
+// obtener todos los comentarios con información del autor
+export const getAllComments = async (req, res) => {
+  try {
+    const comments = await Comment.find().populate({
+      path: 'autor',
+      select: 'username avatarURL', // Incluye el campo 'avatarURL' en la selección
+    });
+
+    res.json(comments);
+  } catch (error) {
+    console.error("Error al obtener todos los comentarios:", error);
+    res.status(500).json({ message: "Error al obtener todos los comentarios", error });
+  }
 };
 
-// Obtener comentarios por ID de post
+
+
+/* // Obtener comentarios por ID de post
 export const getCommentsByPostId = async (req, res) => {
   const { postId } = req.params;
 
@@ -63,7 +81,41 @@ export const getCommentsByPostId = async (req, res) => {
     console.error('Error fetching comments by post ID:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
+}; */
+
+// Obtener comentarios por ID de post con información del autor
+export const getCommentsByPostId = async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const post = await Post.findById(postId).populate({
+      path: 'comments',
+      populate: {
+        path: 'autor',
+        select: 'username avatarURL', // Incluye el campo 'avatarURL' en la selección
+      },
+    });
+
+    console.log("comentarios por ID de post ",post)
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const comments = post.comments;
+
+    if (comments.length === 0) {
+      return res.status(404).json({ message: 'No comments found for the post' });
+    }
+
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error('Error fetching comments by post ID:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
+
+
 
 //Actualizar comentarios:
 export const updateComment = async (req, res) => {
