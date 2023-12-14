@@ -24,33 +24,34 @@ const PostItem = ({ post, onDelete }) => {
   return (
     <div className="post-item">
       <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
-
         {/* Muestra la imagen desde la URL */}
-        {imageURL && <img src={imageURL} alt="Post Image" style={{ maxWidth: '100%' }} />}
+        {imageURL && <img src={imageURL} alt="Post Image" style={{ maxWidth: '100%', height: '200px' }} />}
+
         <h2 className='text-2xl font-bold py-2'>{title}</h2>
         {/* Mostrar solo un fragmento de la descripción */}
         <p className='text-slate-300'>{truncatedDescription}</p>
-
-        <div className='flex justify-normal'>
-          <div>
-            {/* Mostrar el nombre del autor */}
-            <p className='text-slate-400'> Posted by: {autorUsername}</p>
+        <div className='py-1'>
+          <div className='flex justify-normal '>
+            <div>
+              {/* Mostrar el nombre del autor */}
+              <p className='text-slate-400'> Posted by: {autorUsername}</p>
+            </div>
+            <div className='px-1'>
+              {/* Mostrar la imagen del avatar si está presente */}
+              {post.autor.avatarURL && (
+                <img
+                  src={post.autor.avatarURL}
+                  alt={`${post.autor.username}'s Avatar`}
+                  className="w-6 h-6 rounded-full object-cover "
+                  style={{ marginLeft: '2px', marginRight: '6px' }}
+                />
+              )}
+            </div>
           </div>
-          <div className='px-1'>
-            {/* Mostrar la imagen del avatar si está presente */}
-            {post.autor.avatarURL && (
-              <img
-                src={post.autor.avatarURL}
-                alt={`${post.autor.username}'s Avatar`}
-                className="w-6 h-6 rounded-full object-cover "
-                style={{ marginLeft: '2px', marginRight: '6px' }}
-              />
-            )}
-          </div>
 
+          <p className='text-slate-400  '> {new Date(post.updatedAt).toLocaleDateString()}</p>
         </div>
 
-        <p className='text-slate-400 py-1'> {new Date(post.updatedAt).toLocaleDateString()}</p>
 
         {/* Botón para ir a la página de detalles del post */}
         <Link to={`/post/${_id}`}>
@@ -82,72 +83,3 @@ const PostItem = ({ post, onDelete }) => {
 
 
 export default PostItem;
-
-
-
-
-
-
-
-// import { Link } from 'react-router-dom';
-// import { useUser } from '../context/UserContext'; // Asegúrate de importar useUser
-
-
-// const PostItem = ({ post, onDelete }) => {
-//   const { _id, title, description, autor, imageURL } = post;
-//   const { user, dispatch } = useUser();
-
-
-//   const handleDeleteClick = () => {
-//     onDelete(_id);
-//   };
-
-//   console.log("post item aqui", post)
-
-
-//   return (
-//     <div className="post-item">
-//       <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
-
-//        {/* Mostrar el nombre del autor */}
-//        <p className='text-slate-300'>{post.autor.username}</p>
-
-//         <h2 className='text-2xl font-bold'>{title}</h2>
-
-//         {/* Muestra la imagen desde la URL */}
-//         {imageURL && <img src={imageURL} alt="Post Image" style={{ maxWidth: '100%' }} />}
-
-//         <p className='text-slate-300'>{description}</p>
-
-//         <p className='text-slate-300'>{new Date(post.updatedAt).toLocaleDateString()}</p>
-
-//         {/* Botón para ir a la página de detalles del post */}
-//         <Link to={`/post/${_id}`}>
-//           <button>Ver Detalles del Post</button>
-//         </Link>
-
-//         {/* Botones de edición y eliminación */}
-//         <div>
-//           {user && (
-//             // Mostrar el botón de eliminación solo si el usuario está autenticado y es el autor del post
-//             user.id === autor && (
-//               <button onClick={handleDeleteClick}>Eliminar Post</button>
-//             )
-//           )}
-
-//           {user && (
-//             // Mostrar el enlace de edición solo si el usuario está autenticado y es el autor del post
-//             user.id === autor && (
-//               <Link to={`/update-post/${_id}`}>
-//                 <button>Editar Post</button>
-//               </Link>
-//             )
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-
-// export default PostItem;

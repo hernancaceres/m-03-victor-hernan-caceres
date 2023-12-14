@@ -49,9 +49,9 @@ function LoginForm() {
         // Despacha la acción para establecer el usuario después del inicio de sesión
         dispatch({ type: 'LOGIN_SUCCESS', payload: { userId: response.data.id, username: response.data.username, avatarURL: response.data.avatarURL, } });
 
-        console.log( "username LOGIN_SUCCESS en login",response.data.username);
+        console.log("username LOGIN_SUCCESS en login", response.data.username);
         console.log('Despacho de acción LOGIN_SUCCESS');
-        console.log( "avatarURL LOGIN_SUCCESS en login",response.data.avatarURL);
+        console.log("avatarURL LOGIN_SUCCESS en login", response.data.avatarURL);
 
         // // Redirige a la página de crear post
         navigate('/create-post');
@@ -93,8 +93,8 @@ function LoginForm() {
           <div>
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}
               className="w-full bg-violet-700 text-white px-4 py-2 rounded-md my-2" />
-              {/* Muestra los errores del campo 'password' */}
-              {errors.map((error, index) => (
+            {/* Muestra los errores del campo 'password' */}
+            {errors.map((error, index) => (
               error.path === 'password' && (
                 <div className="text-red-500" key={index}>
                   {error.msg}
