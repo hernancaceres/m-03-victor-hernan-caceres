@@ -1,5 +1,6 @@
 
 import { useUser } from '../context/UserContext';
+import PostList from './PostList'; // Asegúrate de que la ruta del import sea correcta
 
 const Home = () => {
   const { user } = useUser();
@@ -8,7 +9,9 @@ const Home = () => {
 
   return (
     <div>
-      <h2>Home</h2>
+    
+      {/* Renderiza el componente PostList para mostrar todos los posts */}
+      <PostList />
       {/* Resto del contenido de la página */}
     </div>
   );

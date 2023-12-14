@@ -21,12 +21,18 @@ const PostItem = ({ post, onDelete }) => {
 
   //const autorUsername = autor ? autor.username : 'Autor Desconocido';
 
-
   return (
     <div className="post-item">
       <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
-
-        {/* Mostrar la imagen del avatar si está presente */}
+        
+        {/* Muestra la imagen desde la URL */}
+        {imageURL && <img src={imageURL} alt="Post Image" style={{ maxWidth: '100%' }} />}
+        <h2 className='text-2xl font-bold py-2'>{title}</h2>
+        {/* Mostrar solo un fragmento de la descripción */}
+        <p className='text-slate-300'>{truncatedDescription}</p>
+         {/* Mostrar el nombre del autor */}
+         <p className='text-slate-400'> Posted by: {autorUsername}</p>
+             {/* Mostrar la imagen del avatar si está presente */}
         {post.autor.avatarURL && (
           <img
             src={post.autor.avatarURL}
@@ -35,15 +41,6 @@ const PostItem = ({ post, onDelete }) => {
             style={{ marginLeft: '2px', marginRight: '6px' }}
           />
         )}
-
-        {/* Mostrar el nombre del autor */}
-        <p className='text-slate-300'> {autorUsername}</p>
-        
-        <h2 className='text-2xl font-bold py-2'>{title}</h2>
-        {/* Muestra la imagen desde la URL */}
-        {imageURL && <img src={imageURL} alt="Post Image" style={{ maxWidth: '100%' }} />}
-        {/* Mostrar solo un fragmento de la descripción */}
-        <p className='text-slate-300'>{truncatedDescription}</p>
         <p className='text-slate-400 py-1'> {new Date(post.updatedAt).toLocaleDateString()}</p>
 
         {/* Botón para ir a la página de detalles del post */}

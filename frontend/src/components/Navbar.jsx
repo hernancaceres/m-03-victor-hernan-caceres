@@ -21,7 +21,7 @@ function Navbar() {
   return (
     <nav className="bg-purple-900 my-3 flex justify-between py-5 px-10 rounded-lg ">
       <Link to="/">
-        <h1 className="text-4xl font-bold">HC</h1>
+        <h1 className="text-3xl font-bold">VIAJES</h1>
       </Link>
       <ul className="flex gap-x-2 items-center">
         <li>

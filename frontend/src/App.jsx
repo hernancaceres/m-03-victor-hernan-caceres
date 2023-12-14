@@ -1,5 +1,3 @@
-
-
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CompCreateUsuario from './pages/CompCreateUsuario';
@@ -17,8 +15,7 @@ import UpdatePostPage from './pages/UpdatePostPage';
 import CreateCommentForm from './pages/CreateCommentForm';
 import PrivateRoute from './pages/PrivateRoute';
 import Profile from './pages/profile';
-
-
+import NotFoundPage from './pages/NotFoundPage';
 
 // ... (importaciones omitidas para mayor claridad)
 
@@ -80,6 +77,8 @@ if (response.data && response.data.id && response.data.username) {
               <Route path="/create-post" element={<CreatePostForm />} />
               <Route path="/create-comment/:postId" element={<CreateCommentForm />} />
             </Route>
+            {/* Ruta para páginas no encontradas */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
       </Suspense>

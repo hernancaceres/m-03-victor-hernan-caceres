@@ -2,7 +2,7 @@ import Comment from "../models/comment.js";
 import User from "../models/user.model.js";
 import Post from "../models/post.model.js";
 
-// CREAR UN COMENTARIO
+/* // CREAR UN COMENTARIO
 export const createComment = async (req, res) => {
   try {
     const { autor, description } = req.body;
@@ -24,6 +24,39 @@ export const createComment = async (req, res) => {
     await Post.findByIdAndUpdate(postId, { $push: { comments: commentSaved._id } });
 
     res.status(201).json(commentSaved);
+  } catch (error) {
+    console.error("Error al crear un nuevo comentario:", error);
+    res.status(400).json({ message: "Error al crear un nuevo comentario", error });
+  }
+};
+ */
+
+
+// CREAR UN COMENTARIO
+export const createComment = async (req, res) => {
+  try {
+    const { autor, description } = req.body;
+    const postId = req.params.postId;
+
+    // Verifica si el autor (usuario) existe antes de crear el comentario
+    const existingUser = await User.findById(autor);
+    if (!existingUser) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    // Crea el nuevo comentario con la referencia al post
+    const newComment = new Comment({ autor, description, post: postId });
+
+    // Guarda el comentario en la base de datos
+    const commentSaved = await newComment.save();
+
+    // Pobla la referencia del autor en el comentario
+    const populatedComment = await Comment.findById(commentSaved._id).populate('autor');
+
+    // Actualiza el array de comentarios en el post
+    await Post.findByIdAndUpdate(postId, { $push: { comments: commentSaved._id } });
+
+    res.status(201).json(populatedComment);
   } catch (error) {
     console.error("Error al crear un nuevo comentario:", error);
     res.status(400).json({ message: "Error al crear un nuevo comentario", error });

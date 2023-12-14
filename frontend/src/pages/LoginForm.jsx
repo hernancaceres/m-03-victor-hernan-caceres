@@ -93,8 +93,8 @@ function LoginForm() {
           <div>
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}
               className="w-full bg-violet-700 text-white px-4 py-2 rounded-md my-2" />
-            {/* Muestra los errores del campo 'password' */}
-            {errors.map((error, index) => (
+              {/* Muestra los errores del campo 'password' */}
+              {errors.map((error, index) => (
               error.path === 'password' && (
                 <div className="text-red-500" key={index}>
                   {error.msg}

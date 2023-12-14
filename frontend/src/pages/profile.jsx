@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useUser } from '../context/UserContext'; 
+import { useUser } from '../context/UserContext';
 
 function Profile() {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
   const { dispatch } = useUser();
 
-console.log("userData en profile",userData)
+  console.log("userData en profile", userData)
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -48,13 +48,12 @@ console.log("userData en profile",userData)
 
   return (
     <div>
-      <h2>Perfil de {userData.username}</h2>
-      <p>Email: {userData.email}</p>
-      
       {/* Muestra la imagen desde la URL */}
-      {userData.avatarURL && <img src={userData.avatarURL} alt="avatarURL" style={{ maxWidth: '100%' }} />}
-
+      {userData.avatarURL && <img src={userData.avatarURL} alt="avatarURL" style={{ maxWidth: '100%' }}
+        className="w-56 h-56 rounded-full object-cover px-4 py-4 my-2" />}
       {/* Mostrar otros detalles del perfil del usuario según tus necesidades */}
+      <h2 className='px-4 py-1 my-2'>Nombre de Usuario: {userData.username}</h2>
+      <p className='px-4 py-1 my-1'>Email: {userData.email}</p>
     </div>
   );
 }

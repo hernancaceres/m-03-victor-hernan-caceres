@@ -12,6 +12,7 @@ const PostDetailPage = () => {
   const token = localStorage.getItem('token');
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedCommentText, setEditedCommentText] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
 
   const handleCommentEdit = (comment) => {
     setEditingCommentId(comment._id);
@@ -67,8 +68,8 @@ const PostDetailPage = () => {
       }
     };
 
-    fetchPostDetails();
-  }, [user, postId]);
+      fetchPostDetails();
+  }, [currentUser, postId]);
 
   const handleDelete = async () => {
     try {
@@ -115,65 +116,74 @@ const PostDetailPage = () => {
   };
   // hasta
   return (
-    <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
-      <p className='text-slate-300'>Autor: {post.autor.username}</p>
-      <p className='text-slate-300'>{new Date(post.updatedAt).toLocaleDateString()}</p>
-      <h1 className='text-2xl font-bold'>{post.title}</h1>
-      {/* Mostrar la imagen del post si imageURL está presente */}
-      {post.imageURL && <img src={post.imageURL} alt="Post Image" style={{ maxWidth: '100%' }} />}
-      <p className='text-slate-300'>{post.description}</p>
+     <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
+        <p className='text-slate-300'>Autor: {post.autor.username}</p>
+        <p className='text-slate-300'>{new Date(post.updatedAt).toLocaleDateString()}</p>
+        <h1 className='text-2xl font-bold'>{post.title}</h1>
+        {/* Mostrar la imagen del post si imageURL está presente */}
+        {post.imageURL && <img src={post.imageURL} alt="Post Image" style={{ maxWidth: '100%' }} />}
+        <p className='text-slate-300'>{post.description}</p>
 
-      {/* Botón de eliminación del post */}
-      {user && user.id === post.autor._id && (
+        {/* Botón de eliminación del post */}
+        {user && user.id === post.autor._id && (
         <button onClick={handleDelete} className='bg-violet-900 text-white px-4 py-2 rounded-md my-2'>Eliminar Post</button>
-      )}
+        )}
 
-      <h2 className="text-slate-100 font-semibold py-3">Comentarios:</h2>
-
-      <ul className='text-slate-300 font-serif'>
+        <h2 className="text-slate-100 font-semibold py-3">Comentarios:</h2>
         
-{comments.map((comment) => (
-  <li key={comment._id}>
-    {comment.description}
+       <ul className='text-slate-300 font-serif'>
+          {comments.map((comment) => (
+           <li key={comment._id}>
+             {/* Mostrar la imagen del avatar y el nombre del autor */}
+             <div className="comment-author-info">
+                {comment.autor.avatarURL && (
+                <img src={comment.autor.avatarURL} alt="Avatar" className="avatar w-6 h-6 rounded-full object-cover" />
+                )}
+                <p className="author-name">{comment.autor.username}</p>
+             </div>
 
-    {/* Botones de edición y eliminación del comentario */}
-    {(user && (user.id === post.autor._id || user.id === comment.autor)) && (
-      <div className="comment-buttons">
-        <button
-          onClick={() => handleCommentDelete(comment._id)}
-          className='bg-red-900 text-white px-2 py-1 ml-2 rounded-md'>
-          Eliminar Comentario
-        </button>
+            {/* Mostrar la descripción del comentario */}
+            <p>{comment.description}</p>
 
-        <button
-          onClick={() => handleCommentEdit(comment)}
-          className='bg-blue-500 text-white px-2 py-1 ml-2 rounded-md'>
-          Editar Comentario
-        </button>
-      </div>
-    )}
+              {/* Botones de edición y eliminación del comentario */}
+              {(user && (user.id === post.autor._id || user.id === comment.autor._id)) && (
+             <div className="comment-buttons">
+               <button
+                  onClick={() => handleCommentDelete(comment._id)}
+                  className='bg-red-900 text-white px-2 py-1 ml-2 rounded-md'>
+                  Eliminar Comentario
+               </button>
 
-    {/* Formulario de edición del comentario */}
-    {editingCommentId === comment._id && (
-      <form onSubmit={(e) => handleCommentUpdate(e, comment._id)}>
-        <textarea
-          value={editedCommentText}
-          onChange={(e) => setEditedCommentText(e.target.value)}
-          rows="3"
-        />
-        <button type="submit">Guardar Cambios</button>
-      </form>
-    )}
-  </li>
-))}
+                <button
+                 onClick={() => handleCommentEdit(comment)}
+                 className='bg-blue-500 text-white px-2 py-1 ml-2 rounded-md'>
+                 Editar Comentario
+                </button>
+             </div>
+            )}
 
 
-      </ul>
+           {/* Formulario de edición del comentario */}
+            {editingCommentId === comment._id && (
+            <form onSubmit={(e) => handleCommentUpdate(e, comment._id)}>
+             <textarea
+               value={editedCommentText}
+               onChange={(e) => setEditedCommentText(e.target.value)}
+               rows="3"
+               />
+              <button type="submit">Guardar Cambios</button>
+            </form>
+            )}
+          </li>
+          ))}
 
-      {/* Formulario para crear comentarios */}
-      <div className='bg-red-500 max-w-md w-full p-10 rounded-md'>
-        <CreateCommentForm postId={postId} userId={user ? user.id : null} onCommentCreated={handleCommentCreated} />
-      </div>
+
+        </ul>
+           {/* Formulario para crear comentarios */}
+           <div className='bg-red-500 max-w-md w-full p-10 rounded-md'>
+              <CreateCommentForm postId={postId} userId={user ? user.id : null} onCommentCreated={handleCommentCreated} />
+           </div>
+      
     </div>
   );
 };
