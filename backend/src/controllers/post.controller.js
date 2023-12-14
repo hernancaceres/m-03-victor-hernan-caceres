@@ -1,4 +1,5 @@
 import Post from "../models/post.model.js";
+import Comment from '../models/comment.js';
 
 /* //BUSCAR TODOS LOS POSTS
 export const getAllPosts = async (req, res) => {
@@ -52,7 +53,7 @@ export const getPostById = async (req, res) => {
       select: 'username avatarURL', // Asegúrate de seleccionar el campo 'username'
     });
 
-    console.log("Obtener un post por ID",post)
+    console.log("Obtener un post por ID", post)
 
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
@@ -100,45 +101,28 @@ export const updatePost = async (req, res) => {
   }
 };
 
+
+
 // Eliminar un post por ID
 export const deletePostById = async (req, res) => {
   const { postId } = req.params;
 
   try {
+
+    // Eliminar todos los comentarios asociados al post
+    await Comment.deleteMany({ post: postId });
+
+    // Eliminar el post por ID
     const deletedPost = await Post.findByIdAndDelete(postId);
 
     if (!deletedPost) {
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    res.status(200).json({ message: 'Post deleted successfully' });
+    res.status(200).json({ message: 'Post and associated comments deleted successfully' });
+
   } catch (error) {
     console.error('Error deleting post by ID:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error, al intentar eliminar un post por id' });
   }
 };
-
-/* //BUSCAR UN PRODUCTO POR ID
-export const getProductById = async (req, res) => {
-  const { productId } = req.params;
-  try {
-    const product = await Product.findById(productId);
-    res.status(200).json(product);
-  }
-  catch (error) {
-    return res.json({ message: "Error al buscar un producto por el ID" });
-  }
-};
-
-
-//ELIMINAR UN PRODUCTO
-export const deleteProductById = async (req, res) => {
-  const { productId } = req.params;
-  try {
-    const deletedProduct = await Product.findByIdAndDelete(productId);
-    res.status(200).json({ message: "Producto eliminado" });
-  }
-  catch (error) {
-    res.status(404).json({ message: "Error al eliminar un producto" });
-  }
-}; */

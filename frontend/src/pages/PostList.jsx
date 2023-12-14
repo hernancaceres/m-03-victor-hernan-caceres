@@ -27,7 +27,7 @@ const PostList = () => {
         },
         withCredentials: true,
       });
- 
+
       // Filtrar los posts después de la eliminación
       const updatedPosts = posts.filter((post) => post._id !== postId);
 
@@ -39,10 +39,16 @@ const PostList = () => {
   };
 
   return (
-    <div className="grid grid-cols-3 gap-2 post-list">
-      {posts.map((post) => (
-        <PostItem key={post._id} post={post} onDelete={handleDelete} />
-      ))}
+    <div>
+      {posts.length === 0 ? (
+        <p>No hay ningún post disponible.</p>
+      ) : (
+        <div className="grid grid-cols-3 gap-2 post-list">
+          {posts.map((post) => (
+            <PostItem key={post._id} post={post} onDelete={handleDelete} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
