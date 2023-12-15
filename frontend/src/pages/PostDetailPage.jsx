@@ -116,28 +116,60 @@ const PostDetailPage = () => {
   };
   // hasta
   return (
-    <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
-      <p className='text-slate-300'>Autor: {post.autor.username}</p>
-      <p className='text-slate-300'>{new Date(post.updatedAt).toLocaleDateString()}</p>
-      <h1 className='text-2xl font-bold'>{post.title}</h1>
-      {/* Mostrar la imagen del post si imageURL está presente */}
-      {post.imageURL && <img src={post.imageURL} alt="Post Image" style={{ maxWidth: '100%' }} />}
-      <p className='text-slate-300'>{post.description}</p>
+    <div className='bg-gray-900 p-10 rounded-md'>
+      <div>
 
-      {/* Botón de eliminación del post */}
-      {user && user.id === post.autor._id && (
-        <button onClick={handleDelete} className='bg-violet-900 text-white px-4 py-2 rounded-md my-2'>Eliminar Post</button>
-      )}
+        <div className='flex items-center'>
+          <div className='mr-6 flex-shrink-0'>
+            {/* Mostrar la imagen del post si imageURL está presente */}
+            {post.imageURL && <img src={post.imageURL} alt="Post Image" className='h-72 object-cover rounded' />}
+          </div>
+          <div>
+            <h1 className='text-3xl font-bold mb-2'>{post.title}</h1>
+            <p className='text-gray-100'>{post.description}</p>
+          </div>
+        </div>
+
+
+        <div className='flex justify-normal '>
+          <div className=' ml-1 pt-2'>
+            <p className='text-slate-300'>Autor: {post.autor.username}</p>
+          </div>
+          <div className=' ml-1 pt-2'>
+            {/* Mostrar la imagen del avatar del autor */}
+            {post.autor.avatarURL && (
+              <img
+                src={post.autor.avatarURL}
+                alt={`${post.autor.username}'s Avatar`}
+                className="avatar w-6 h-6 rounded-full object-cover"
+                style={{ marginLeft: '2px', marginRight: '6px' }}
+              />
+            )}
+          </div>
+        </div>
+        <div>
+          <p className='text-slate-300 ml-1'>{new Date(post.updatedAt).toLocaleDateString()}</p>
+        </div>
+        <div>
+          {/* Botón de eliminación del post */}
+          {
+            user && user.id === post.autor._id && (
+              <button onClick={handleDelete} className='bg-violet-900 text-white px-4 py-2 rounded-md my-2'>Eliminar Post</button>
+            )
+          }
+        </div>
+
+      </div>
 
       <h2 className="text-slate-100 font-semibold py-3">Comentarios:</h2>
 
-      <ul className='text-slate-300 font-serif'>
+      <ul className='text-slate-300 max-w-xl w-full font-serif'>
         {comments.map((comment) => (
           <li key={comment._id}>
 
-            <div className=" bg-zinc-600 ">
+            <div className=" bg-gray-800 ">
               {/* Mostrar la imagen del avatar y el nombre del autor */}
-              <div className="flex justify-normal bg-zinc-600 text-white rounded-md ml-1">
+              <div className="flex justify-normal text-white rounded-md ml-1 my-2 p-1">
                 {comment.autor.avatarURL && (
                   <img src={comment.autor.avatarURL} alt="Avatar" className="avatar w-6 h-6 rounded-full object-cover" />
                 )}
@@ -162,7 +194,7 @@ const PostDetailPage = () => {
                 <div>
                   <button
                     onClick={() => handleCommentEdit(comment)}
-                    className='bg-blue-500 text-white px-2 py-1 ml-2 rounded-md'>
+                    className='bg-violet-900 text-white px-2 py-1 ml-2 rounded-md'>
                     Editar Comentario
                   </button>
                 </div>
@@ -172,19 +204,19 @@ const PostDetailPage = () => {
             {/* Formulario de edición del comentario */}
             {editingCommentId === comment._id && (
               <form onSubmit={(e) => handleCommentUpdate(e, comment._id)}>
-                <div className='w-full bg-zinc-600 text-white px-4 py-2 rounded-md my-2'>
+                <div className='w-full text-white px-4 py-2 rounded-md my-2'>
                   <div>
                     <textarea
                       value={editedCommentText}
                       onChange={(e) => setEditedCommentText(e.target.value)}
                       rows="3"
-                      className='w-full bg-zinc-600 text-white rounded-md my-2'
+                      className='w-full bg-gray-600 text-white rounded-md my-2'
                     />
                   </div>
                   <div>
                     <button
                       type="submit"
-                      className='bg-blue-600 text-white px-2 py-1 rounded-md'>
+                      className='bg-violet-900 text-white px-2 py-1 rounded-md'>
                       Guardar Cambios
                     </button>
                   </div>
@@ -194,15 +226,14 @@ const PostDetailPage = () => {
             )}
           </li>
         ))}
-
-
       </ul>
+
       {/* Formulario para crear comentarios */}
-      <div className='bg-red-500 max-w-md w-full p-10 rounded-md'>
+      <div className='bg-gray-800 max-w-xl w-full p-4 rounded-md'>
         <CreateCommentForm postId={postId} userId={user ? user.id : null} onCommentCreated={handleCommentCreated} />
       </div>
 
-    </div>
+    </div >
   );
 };
 

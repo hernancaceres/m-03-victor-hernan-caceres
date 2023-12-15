@@ -19,9 +19,9 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-purple-900 my-3 flex justify-between py-5 px-10 rounded-lg ">
+    <nav className="bg-gray-900 my-3 flex justify-between py-5 px-10 rounded-lg ">
       <Link to="/">
-        <h1 className="text-3xl font-bold">VIAJES</h1>
+        <h1 className="text-3xl font-bold">VIAJEROS</h1>
       </Link>
       <ul className="flex gap-x-2 items-center">
         <li>
@@ -56,7 +56,7 @@ function Navbar() {
                   src={user.avatarURL}
                   alt="Avatar"
                   className="w-10 h-10 rounded-full object-cover"
-                  style={{ marginLeft: '2px', marginRight: '6px' }}
+                  style={{  marginRight: '2px' }}
                 />
               )}
             </li>

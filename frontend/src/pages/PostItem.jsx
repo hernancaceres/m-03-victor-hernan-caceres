@@ -23,13 +23,16 @@ const PostItem = ({ post, onDelete }) => {
 
   return (
     <div className="post-item">
-      <div className='bg-red-800 max-w-md w-full p-10 rounded-md'>
+      <div className='bg-gray-900 max-w-md w-full p-10 rounded-md'>
+
         {/* Muestra la imagen desde la URL */}
         {imageURL && <img src={imageURL} alt="Post Image" style={{ maxWidth: '100%', height: '200px' }} />}
 
         <h2 className='text-2xl font-bold py-2'>{title}</h2>
+
         {/* Mostrar solo un fragmento de la descripción */}
         <p className='text-slate-300'>{truncatedDescription}</p>
+
         <div className='py-1'>
           <div className='flex justify-normal '>
             <div>
@@ -48,7 +51,6 @@ const PostItem = ({ post, onDelete }) => {
               )}
             </div>
           </div>
-
           <p className='text-slate-400  '> {new Date(post.updatedAt).toLocaleDateString()}</p>
         </div>
 
