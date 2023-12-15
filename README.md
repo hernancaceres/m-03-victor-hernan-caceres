@@ -49,25 +49,33 @@ Asegúrate de tener instalado lo siguiente en tu sistema antes de ejecutar la ap
    ```bash
    npm start
 
-Inicia el frontend con el siguiente comando en la carpeta frontend:
+6. Inicia el frontend con el siguiente comando en la carpeta frontend:
 
-npm start
+    ```bash
+    npm start
 
-La aplicación estará disponible en http://localhost:3000.
+7. La aplicación estará disponible en http://localhost:3000.
 
-Uso
-Accede a http://localhost:3000 en tu navegador para utilizar la plataforma.
-Puedes registrarte, iniciar sesión, crear nuevas publicaciones, ver las existentes, agregar comentarios y disfrutar de las experiencias compartidas por otros viajeros.
-Contribución
-Si deseas contribuir a este proyecto, por favor sigue estas pautas:
+8. Uso
 
-Haz un fork del repositorio en GitHub.
-Crea una nueva rama para tu contribución.
-Realiza tus cambios y asegúrate de seguir las prácticas recomendadas de desarrollo.
-Envía un pull request a la rama principal del repositorio.
-Problemas y Sugerencias
-Si encuentras algún problema o tienes alguna sugerencia, por favor abre un issue en el repositorio.
-https://github.com/hernancaceres/m-03-victor-hernan-caceres.git
+   Accede a http://localhost:3000 en tu navegador para utilizar la plataforma.
+   Puedes registrarte, iniciar sesión, crear nuevas publicaciones, ver las existentes, agregar comentarios y disfrutar de las experiencias compartidas por otros viajeros.
 
-Licencia
-Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
+9. Contribución
+
+   Si deseas contribuir a este proyecto, por favor sigue estas pautas:
+
+   Haz un fork del repositorio en GitHub.
+   Crea una nueva rama para tu contribución.
+   Realiza tus cambios y asegúrate de seguir las prácticas recomendadas de desarrollo.
+   Envía un pull request a la rama principal del repositorio.
+
+10. Problemas y Sugerencias
+
+    Si encuentras algún problema o tienes alguna sugerencia, por favor abre un issue en el repositorio.
+
+   https://github.com/hernancaceres/m-03-victor-hernan-caceres.git
+
+11. Licencia
+
+    Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
