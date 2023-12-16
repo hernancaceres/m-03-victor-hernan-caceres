@@ -71,60 +71,6 @@ export const register = async (req, res) => {
     }
 };
 
-
-
-/* //REGISTRO 
-export const register = async (req, res) => {
-    const { username, email, password, avatarURL, roles } = req.body;
-
-    try {
-        const hashedPassword = await bcrypt.hash(password, 10); //encriptamos la contraseña
-        const newUser = new User({ username, email, avatarURL, password: hashedPassword });
-
-        //logica para los roles
-        if (roles) {
-            const foundRoles = await Role.find({ name: { $in: roles } });
-            newUser.roles = foundRoles.map((rol) => rol._id);
-        } else {
-            const role = await Role.findOne({
-                name: "user",
-            });
-            newUser.roles = [role._id];
-        }
-
-        if (req.file) {
-            console.log('Ruta del archivo:', req.file.path);
-            console.log('Nombre del archivo:', req.file.filename);
-        
-            newUser.avatarURL = req.file.filename; // Ajusta según tu configuración
-        }
-
-        //Guardamos al registro de user
-        const userSaved = await newUser.save();
-
-        //Generamos el Token
-        const token = await createAccessToken({ id: userSaved._id, username: userSaved.username, avatarURL: userSaved.avatarURL });
-        res.cookie("token", token);
-        res.json({
-            message: "Usuario registrado con éxito",
-            id: userSaved.id,
-            username: userSaved.username,
-            email: userSaved.email,
-            avatarURL: userSaved.avatarURL
-        });
-
-        // res.status(200).json(userSaved);
-    } catch (error) {
-        if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
-            // Si el error es de correo electrónico duplicado, envía un código de estado personalizado
-            return res.status(409).json({ message: "El correo electrónico ya está registrado." });
-        }
-
-        res.status(500).json({ message: "registro, Error al registrar al Usuario", error });
-        console.log(error);
-    }
-}; */
-
 //LOGIN  
 export const login = async (req, res) => {
     const { email, password } = req.body;
@@ -188,3 +134,22 @@ export const profile = async (req, res) => {
         res.status(500).json({ message: "Error en el perfil", error });
     }
 };
+
+export const verifyToken = (req, res, next) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+  
+    if (!token) {
+      return res.status(401).json({ message: 'Token no proporcionado' });
+    }
+  
+    // Verificar el token
+    jwt.verify(token, "argentinaprograma4.0", (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: 'Token inválido' });
+      }
+  
+      // Adjuntar la información del usuario al objeto de solicitud para su uso posterior
+      req.user = { id: decoded.id, username: decoded.username, avatarURL: decoded.avatarURL }; // Ajusta según tu modelo de usuario
+      next(); // Llama al siguiente middleware o controlador
+    });
+  };

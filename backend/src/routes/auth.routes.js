@@ -3,6 +3,7 @@ import { Router } from "express";
 import { register, getAllUsuarios, login, logout, profile } from "../controllers/auth.controller.js";
 import { authRequired } from "../middlewares/auth.jwt.js";
 import { validarLogin, validarRegistro, manejarErroresValidacion } from "../middlewares/user.validations.js";
+import { verifyToken } from "../controllers/auth.controller.js"; 
 
 /* import multer from "multer";
 import path from "path";
@@ -71,5 +72,11 @@ authRouter.post("/logout", logout);
 authRouter.get("/profile/:userId", authRequired, profile);
 
 
+
+// Ruta para la verificación del token
+authRouter.get('/verifyToken', verifyToken, (req, res) => {
+  // req.user contendrá la información del usuario después de la verificación del token
+  res.json(req.user);
+});
 
 export default authRouter

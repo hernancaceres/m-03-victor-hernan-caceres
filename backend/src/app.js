@@ -30,7 +30,8 @@ app.use(cors({
 }));
 
 
-// Endpoint para verificar el token
+
+/* // Endpoint para verificar el token
 app.get('/api/verifyToken', (req, res) => {
     const token = req.headers.authorization?.replace('Bearer ', '');
   
@@ -50,7 +51,9 @@ app.get('/api/verifyToken', (req, res) => {
       res.json({ id: decoded.id, username: decoded.username, avatarURL: decoded.avatarURL }); // Ajusta según tu modelo de usuario
     });
     
-  });
+  }); */
+
+
 
 // Middleware para manejar errores
 app.use((err, req, res, next) => {
