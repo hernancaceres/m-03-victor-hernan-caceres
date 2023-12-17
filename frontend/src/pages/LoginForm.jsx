@@ -56,7 +56,7 @@ function LoginForm() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-violet-900">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 ">
       <div className="bg-white max-w-md w-full p-10 rounded-md">
         <h1 className="text-2xl font-bold mb-4 text-violet-900">Login</h1>
 
@@ -101,7 +101,7 @@ function LoginForm() {
         </form>
 
         <p className="mt-4 text-violet-900 text-center flex gap-x-2 justify-between">
-          ¿No tienes una cuenta? <Link to="/register" className="text-blue-500">Registrarse</Link>
+          ¿No tienes una cuenta? <Link to="/register" className="text-blue-500 hover:text-violet-700">Registrarse</Link>
         </p>
       </div>
     </div>

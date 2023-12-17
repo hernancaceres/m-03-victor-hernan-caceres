@@ -11,9 +11,9 @@ const CreateCommentForm = ({ onCommentCreated }) => {  // Agrega onCommentCreate
   // Asegúrate de que el usuario esté autenticado antes de renderizar el componente
   if (!user || !user.id) {
     // Puedes renderizar un mensaje o redirigir al usuario a la página de inicio de sesión
-    return <p className='bg-purple-900 px-4 py-2 pt-2 text-center'>
-      Usuario no autenticado. Por favor, inicie sesión.
-    </p>;
+    return <div className='bg-purple-700 px-4 py-2 pt-2 text-center my-2'>
+      <p>Usuario no autenticado. Por favor, inicie sesión.</p>
+    </div>;
   }
 
   const handleCreateComment = async () => {

@@ -27,7 +27,7 @@ function Navbar() {
         <li>
           <button
             onClick={() => navigate('/posts')}
-            className="bg-violet-900 px-2 md:px-4 py-2 rounded-lg"
+            className="bg-violet-900 hover:bg-violet-700 px-2 md:px-4 py-2 rounded-lg"
           >
             Ver Los Posts
           </button>
@@ -37,7 +37,7 @@ function Navbar() {
           <li>
             <button
               onClick={() => navigate('/create-post')}
-              className="bg-violet-900 px-2 md:px-4 py-2 rounded-lg"
+              className="bg-violet-900 hover:bg-violet-700 px-2 md:px-4 py-2 rounded-lg"
             >
               Crear un Post
             </button>
@@ -49,7 +49,7 @@ function Navbar() {
             <li>
               <button
                 onClick={() => navigate(`/profile/${user.id}`)}
-                className="bg-violet-900 px-2 md:px-4 py-2 rounded-lg">
+                className="bg-violet-900 hover:bg-violet-700 px-2 md:px-4 py-2 rounded-lg">
                 Mi Perfil
               </button>
             </li>
@@ -70,7 +70,7 @@ function Navbar() {
             </li>
 
             <li className="" >
-              <button onClick={logout} className="bg-violet-900 px-2 md:px-4 py-2 rounded-lg my-2">
+              <button onClick={logout} className="bg-violet-900 hover:bg-violet-700 px-2 md:px-4 py-2 rounded-lg my-2">
                 Logout
               </button>
             </li>
@@ -79,12 +79,12 @@ function Navbar() {
           // Mostrar los enlaces de login y registro si el usuario no está autenticado
           <>
             <li>
-              <button onClick={() => navigate('/login')} className="bg-violet-900 px-2 md:px-4 py-2 rounded-lg">
+              <button onClick={() => navigate('/login')} className="bg-violet-900 hover:bg-violet-700 px-2 md:px-4 py-2 rounded-lg">
                 Login
               </button>
             </li>
             <li>
-              <button onClick={() => navigate('/register')} className="bg-violet-900 px-2 md:px-4 py-2 rounded-lg">
+              <button onClick={() => navigate('/register')} className="bg-violet-900 hover:bg-violet-700 px-2 md:px-4 py-2 rounded-lg">
                 Register
               </button>
             </li>
